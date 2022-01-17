@@ -24,7 +24,7 @@
           </h3>
           <p class=" my-2 text-h6" v-if="user">Роль пользователя</p>
           <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text>Выйти</v-btn>
+          <v-btn depressed rounded text @click="onLogout">Выйти</v-btn>
         </div>
       </v-list-item-content>
     </v-card>
@@ -33,6 +33,7 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+// import {logout} from "@/api/Authorization.js"
 
 export default {
   name: "appBarMenu",
@@ -44,7 +45,10 @@ export default {
   methods: {
     ...mapActions({
       getUser: 'user/getUser'
-    })
+    }),
+    async onLogout() {
+      this.$router.push({name: 'logout'})
+    }
   },
   beforeMount() {
     this.getUser();
