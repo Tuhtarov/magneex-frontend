@@ -1,6 +1,8 @@
 import axios from "axios";
 import token from "@/api/TokenManager.js";
 import codes from "@/api/ResponseCode.js"
+import messages from "@/api/ResponseMessages.js"
+
 
 let tokenValue = token.getSaved();
 
@@ -13,21 +15,38 @@ const axiosConfig = {
 
 const axiosInstance = axios.create(axiosConfig);
 
-axiosInstance.interceptors.request.use(function (config) {
+export const loginInstance = axios.create(axiosConfig);
+
+
+/** Ставим в каждый запрос на сервак токен авторизации */
+axiosInstance.interceptors.request.use(config => {
     if (tokenValue) {
         config.headers['Authorization'] = `Bearer ${tokenValue}`;
     }
-    
-    return config;
-}, function (error) {
-    // если интерцептор обнаружил ошибку с 401 кодом (нет авторизации)
-    // перезагружаем страницу что бы перенаправить на страницу авторизации
-    if (error.code === codes.HTTP_UNAUTHORIZED) {
-        token.delere()
-        location.reload()
-    }
 
-    return Promise.reject(error)
-})
+    return config;
+}, error => Promise.reject(error))
+
+
+/** Обработка ошибок во время получения ответа */
+axiosInstance.interceptors.response.use(config => config,
+    error => {
+        if (error?.message === messages.NETWORK_ERROR_RESPONSE || error.response === undefined) {
+            console.error('Ошибка сети');
+            console.dir(error)
+        }
+
+        if (error.response?.status === codes.HTTP_UNAUTHORIZED) {
+            clearToken();
+        }
+
+        return Promise.reject(error)
+    }
+)
+
 
 export default axiosInstance;
+
+function clearToken() {
+    token.delete()
+}

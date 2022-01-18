@@ -2,6 +2,7 @@ import token from '@/api/TokenManager.js'
 import axiosInstance from '@/api/Axios.js';
 import codes from '@/api/ResponseCode.js';
 
+
 class UserManager {
     getUser = async () => {
         let user = null;

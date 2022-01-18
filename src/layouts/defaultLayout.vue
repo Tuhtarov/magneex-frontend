@@ -1,29 +1,13 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="navDrawer">
-      <v-list nav>
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-icon>
+    <v-navigation-drawer app v-model="navDrawer" width="290">
+      <navigation-list />
 
-          <v-list-item-title>Main</v-list-item-title>
-        </v-list-item>
-
-        <v-list-group prepend-icon="mdi-account-circle">
-          <template v-slot:activator>
-            <v-list-item-title>Users</v-list-item-title>
-          </template>
-
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Create</v-list-item-title>
-          </v-list-item>
-
-        </v-list-group>
-      </v-list>
+      <template v-slot:append>
+        <div class="ps-4 pb-4 d-flex">
+          <theme-switch />
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <app-bar @clickNavIcon="onNavClick" />
@@ -41,21 +25,22 @@
 <script>
 import appBar from "@/components/structure/app-bar";
 import appFooter from "@/components/structure/app-footer";
+import navigationList from "@/components/navigation/navigation-list";
+import ThemeSwitch from "@/components/tool/themeSwitch.vue";
 
 export default {
   name: "Default",
-  components: {appBar, appFooter},
+  components: { appBar, appFooter, navigationList, ThemeSwitch },
   data: () => ({
-    navDrawer: false
+    navDrawer: false,
   }),
   methods: {
     onNavClick() {
-      this.navDrawer = !this.navDrawer
-    }
-  }
-}
+      this.navDrawer = !this.navDrawer;
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 </style>

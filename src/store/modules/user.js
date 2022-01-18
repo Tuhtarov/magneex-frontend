@@ -15,9 +15,9 @@ export default {
     actions: {
         async getUser({commit}) {
             if (!userAlreadyFetched) {
+                userAlreadyFetched = true;
                 const user = await userManager.getUser();
                 if (user) commit('setUser', user);
-                userAlreadyFetched = true;
             }
         }
     },

@@ -1,33 +1,45 @@
-import axiosInstance from "@/api/Axios.js";
+import {loginInstance} from "@/api/Axios.js";
 import codes from '@/api/ResponseCode.js';
 import token from '@/api/TokenManager.js';
+import messages from "@/api/ResponseMessages.js"
 
-export async function login(login, password) {
-    let response = null;
 
+/**
+ * 
+ * @param string login 
+ * @param string password 
+ * @param callback onSuccess
+ * @param callback onError 
+ */
+export async function login(login, password, onSuccess = null, onError = null) {
     try {
-        response = await axiosInstance.post('/login_check', {
+        const response = await loginInstance.post('/login_check', {
             login: login,
             password: password
         })
 
         if (response.status === codes.HTTP_OK) {
             token.save(response.data.token)
-        } else {
-            response = null;
+            onSuccess();
         }
-    } catch (e) {
-        token.delete()
-    }
 
-    return response;
+    } catch (e) {
+        if (e?.message === messages.NETWORK_ERROR_RESPONSE) {
+            onError("Ошибка подключения к серверу")
+        }
+
+        if (e?.response?.status === codes.HTTP_UNAUTHORIZED) {
+            onError("Неверный логин или пароль")
+        }
+    }
 }
 
 export async function logout() {
     try {
-        await axiosInstance.post('/logout')
+        await loginInstance.post('/logout')
     } catch (e) {
-        console.log(e.message);
+        console.error(e.message);
     }
+
     token.delete();
 }

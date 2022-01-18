@@ -9,12 +9,6 @@ export default [
         ...setLayout('default')
     },
     {
-        path: '/about',
-        name: 'About',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
-        ...setLayout('default')
-    },
-    {
         path: '/login',
         name: 'login',
         component: Login,
