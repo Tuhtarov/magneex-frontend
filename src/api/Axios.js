@@ -38,6 +38,7 @@ axiosInstance.interceptors.response.use(config => config,
 
         if (error.response?.status === codes.HTTP_UNAUTHORIZED) {
             clearToken();
+            location.reload();
         }
 
         return Promise.reject(error)

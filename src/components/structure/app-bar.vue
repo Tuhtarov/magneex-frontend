@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar app color="primary" dark elevate-on-scroll>
-    <v-app-bar-nav-icon @click="$emit('clickNavIcon')"/>
+  <v-app-bar app elevate-on-scroll>
+    <v-app-bar-nav-icon v-if="includeBurger" @click="$emit('clickNavIcon')"/>
     <div>
       <v-app-bar-title>Visits</v-app-bar-title>
     </div>
@@ -8,7 +8,7 @@
 
     <!-- Пользователь -->
     <strong class="text-h6 mx-3">
-      <span v-if="user">{{`${user.people.name} ${user.people.family}`}}</span>
+      <span v-if="user">{{ `${user.people.name} ${user.people.family}` }}</span>
       <span v-show="!user">Загрузка</span>
     </strong>
 
@@ -23,6 +23,12 @@ import {mapGetters, mapActions} from "vuex";
 export default {
   name: "appBar",
   components: {appBarMenu},
+  props: {
+    includeBurger: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'user/getUser'

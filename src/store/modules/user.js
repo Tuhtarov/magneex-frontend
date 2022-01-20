@@ -8,6 +8,8 @@ export default {
     },
     getters: {
         getUser: state => state.user,
+        getCurrentRole: state => state.user.role,
+        userIsReady: state => state.user !== null
     },
     mutations: {
         setUser: (state, user) => state.user = user,

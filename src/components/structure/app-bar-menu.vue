@@ -20,6 +20,10 @@
           </h3>
           <p class="my-2 text-h6" v-if="user">Роль пользователя</p>
           <v-divider class="my-3"></v-divider>
+          <div class="d-flex justify-center">
+            <theme-switch />
+          </div>
+          <v-divider class="my-3"></v-divider>
           <v-btn depressed rounded text @click="onLogout">Выйти</v-btn>
         </div>
       </v-list-item-content>
@@ -29,10 +33,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-// import {logout} from "@/api/Authorization.js"
+import ThemeSwitch from "@/components/inputs/themeSwitch";
 
 export default {
   name: "appBarMenu",
+  components: {ThemeSwitch},
   computed: {
     ...mapGetters({
       user: "user/getUser",

@@ -7,7 +7,13 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <v-container fluid class="fill-height">
+        <v-row class="justify-center">
+          <v-col class="col-md-6 col-sm-10" style="max-width: 650px;">
+            <router-view/>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -16,7 +22,7 @@
 import ThemeSwitch from '@/components/inputs/themeSwitch.vue';
 
 export default {
-  name: "Login",
+  name: "errorLayout",
   components: {ThemeSwitch}
 };
 </script>

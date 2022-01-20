@@ -1,30 +1,66 @@
 import Home from "@/views/Home";
-import Login from "@/views/Login";
 
 export default [
     {
         path: '/',
         name: 'Home',
         component: Home,
-        ...setLayout('default')
+        ...setLayout('admin')
     },
+
+    // 
     {
         path: '/login',
         name: 'login',
-        component: Login,
+        component: () => import('@/views/Login.vue'),
         ...setLayout('login')
     },
     {
         path: '/logout',
         name: 'logout',
-        component: () => import(/* webpackChunkName: "logout" */ '@/views/Logout.vue'),
+        component: () => import('@/views/Logout.vue'),
         ...setLayout('login')
+    },
+
+    // пользователи
+    {
+        path: '/users',
+        name: 'users-list',
+        component: () => import('@/views/admin/users/list.vue'),
+        ...setLayout('admin')
+    },
+    {
+        path: '/users/create',
+        name: 'users-create',
+        component: () => import('@/views/admin/users/create.vue'),
+        ...setLayout('admin')
+    },
+
+    // пользователи
+    {
+        path: '/employees',
+        name: 'employees-list',
+        component: () => import('@/views/admin/employees/list.vue'),
+        ...setLayout('admin')
+    },
+    {
+        path: '/employees/create',
+        name: 'employees-create',
+        component: () => import('@/views/admin/employees/create.vue'),
+        ...setLayout('admin')
+    },
+    // ошибки
+    {
+        path: '/error/network-error',
+        name: '408',
+        component: () => import('@/views/errors/E408.vue'),
+        ...setLayout('error')
     },
     {
         path: '*',
         name: '404',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/E404.vue'),
-        ...setLayout('login')
+        component: () => import('@/views/errors/E404.vue'),
+        ...setLayout('error')
     }
 ]
 

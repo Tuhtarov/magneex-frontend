@@ -1,15 +1,22 @@
 <template>
-  <hello-world />
+  <component :is="dashboard"/>
 </template>
 
 <script>
-  import HelloWorld from '@/components/HelloWorld'
+import {mapGetters} from "vuex";
 
-  export default {
-    name: 'Home',
-
-    components: {
-      HelloWorld,
-    },
+export default {
+  name: 'Home',
+  data: () => ({dashboard: null}),
+  computed: {
+    ...mapGetters({user: 'user/getUser'})
+  },
+  watch: {
+    user() {
+      // const role = this.user;
+      // this.dashboard = () => import(`@/components/dashboards/${role}Dashboard.vue`)
+      this.dashboard = () => import(`@/components/dashboards/adminDashboard.vue`)
+    }
   }
+}
 </script>
