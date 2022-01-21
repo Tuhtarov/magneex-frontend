@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>Бум бум</v-card-title>
-    <form action="/bum-bum">
+    <form action="/">
       <v-input label="Логин"></v-input>
       <v-input label="Пароль"></v-input>
       <v-input label="Выбор сотрудника"/>

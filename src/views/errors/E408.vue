@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import errorCard from "../../components/cards/errorCard";
+import errorCard from "@/components/cards/errorCard";
 
 export default {
-  name: "E404",
+  name: "E408",
   components: {
     errorCard
   },

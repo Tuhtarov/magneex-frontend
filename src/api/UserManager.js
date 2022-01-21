@@ -1,10 +1,11 @@
 import token from '@/api/TokenManager.js'
 import axiosInstance from '@/api/Axios.js';
 import codes from '@/api/ResponseCode.js';
-import responseMessages from "@/api/ResponseMessages";
 
 class UserManager {
-    getUser = async (callbackOnError = () => {}) => {
+    responseError = null;
+
+    getUser = async () => {
         let user = null;
 
         if (token.isEmpty()) return user;
@@ -16,12 +17,18 @@ class UserManager {
                 user = response.data.user;
             }
         } catch (e) {
-            if (e.message === responseMessages.NETWORK_ERROR_RESPONSE) {
-                callbackOnError('Отсутствует соединение с сервером.')
-            }
+            this.responseError = e;
         }
 
         return user;
+    }
+
+    hasResponseError = () => {
+        return !!this.responseError;
+    }
+
+    getResponseError = () => {
+        return this.responseError;
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-list nav>
+  <v-list nav :disabled="true">
     <v-list-item>
       <v-list-item-icon>
         <v-icon>mdi-home</v-icon>
