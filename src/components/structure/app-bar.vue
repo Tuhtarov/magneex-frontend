@@ -1,9 +1,7 @@
 <template>
   <v-app-bar app elevate-on-scroll>
     <v-app-bar-nav-icon v-if="includeBurger" @click="$emit('clickNavIcon')"/>
-    <div>
-      <v-app-bar-title>Visits</v-app-bar-title>
-    </div>
+    <v-app-bar-title>Visits</v-app-bar-title>
     <v-spacer></v-spacer>
 
     <!-- Пользователь -->
@@ -30,14 +28,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      user: 'user/getUser'
-    })
+    ...mapGetters({user: 'user/getUser'})
   },
   methods: {
-    ...mapActions({
-      getUser: 'user/getUser'
-    })
+    ...mapActions({getUser: 'user/getUser'})
   },
   beforeMount() {
     this.getUser();

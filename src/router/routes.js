@@ -36,7 +36,7 @@ export default [
         ...setLayout('admin')
     },
 
-    // пользователи
+    // сотрудники
     {
         path: '/employees',
         name: 'employees-list',

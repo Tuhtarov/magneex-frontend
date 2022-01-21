@@ -1,7 +1,7 @@
 <template>
-  <v-card>
-    <v-card-title>{{title}}</v-card-title>
-    <v-card-text>{{text}}</v-card-text>
+  <v-card elevation="4">
+    <v-card-title>{{ title }}</v-card-title>
+    <v-card-text>{{ text }}</v-card-text>
     <v-img :src="errorImage" width="250" height="250" class="mx-auto"></v-img>
     <v-card-actions>
       <v-spacer></v-spacer>
