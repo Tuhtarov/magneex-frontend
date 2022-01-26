@@ -20,8 +20,8 @@
       <v-divider/>
 
       <v-list-item
-          v-for="(link, i) in navItem.links"
-          :key="link.title + i"
+          v-for="link in navItem.links"
+          :key="link.title + link.icon"
           :to="{name: link.name}"
           link>
         <v-list-item-icon>

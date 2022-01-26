@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import application from "./modules/application"
-import user from "./modules/user";
+import application from "./modules/applicationStorage"
+import user from "./modules/userStorage";
+import employee from "./modules/employeeStorage";
+import jobPosition from  "./modules/jobPositionStorage"
+import role from "./modules/roleStorage";
 
 Vue.use(Vuex)
 
@@ -21,7 +24,7 @@ export default new Vuex.Store({
   },
   // здесь подключаются модули хралища (хранилища других компонентов)
   modules: {
-    application, user
+    application, user, employee, jobPosition, role
   },
   /* запрет на прямое изменение стейта
   в продакшен режиме сниманием запрет, т.к этот режим тормозит систему */
