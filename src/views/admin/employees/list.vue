@@ -3,9 +3,7 @@
       :loading="loading"
       max-width="1360">
     <v-card-title>Сотрудники</v-card-title>
-
     <employees-table v-if="!loading" :employees="employees"/>
-
     <v-card-text v-if="hasError">
       При получении данных возникла ошибка.
     </v-card-text>
@@ -26,11 +24,6 @@ export default {
   }),
   computed: mapGetters({employees: 'employee/getEmployees'}),
   methods: mapActions({fetchEmployees: 'employee/fetchEmployees'}),
-  watch: {
-    employees(data) {
-      return data;
-    }
-  },
   async beforeMount() {
     await this.fetchEmployees()
         .catch(() => this.hasError = true)

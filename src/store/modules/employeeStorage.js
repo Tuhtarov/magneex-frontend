@@ -17,6 +17,17 @@ export default {
             state.employees.push(employee)
             state.recentEmployee = employee;
         },
+        removeEmployeeById: (state, id) => {
+            const employees = []
+
+            state.employees.forEach((item) => {
+                if (+item.id !== +id) {
+                    employees.push(item);
+                }
+            })
+
+            state.employees = employees;
+        }
     },
     actions: {
         async fetchEmployees({commit}) {
@@ -33,7 +44,20 @@ export default {
                     dispatch('addEmployee', newEmployee)
                     return Promise.resolve(newEmployee)
                 })
-        }
+        },
+        async getEmployeeById(store, id) {
+            return await employeeManager.getById(id)
+                .then(r => Promise.resolve(r))
+                .catch(e => Promise.reject(e));
+        },
+        async deleteEmployeeById({commit}, id) {
+            return await employeeManager.removeById(id)
+                .then(removedId => {
+                    commit('removeEmployeeById', id);
+                    return Promise.resolve(removedId);
+                })
+                .catch(e => Promise.reject(e));
+        },
     },
     namespaced: true
 }

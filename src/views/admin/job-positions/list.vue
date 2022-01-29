@@ -2,9 +2,9 @@
   <v-card
       :loading="loading"
       max-width="1360">
-    <v-card-title>Сотрудники</v-card-title>
+    <v-card-title>Должности</v-card-title>
 
-    <employees-table v-if="!loading" :employees="employees"/>
+    <job-positions-table v-if="!loading" :positions="jobPositions"/>
 
     <v-card-text v-if="hasError">
       При получении данных возникла ошибка.
@@ -13,26 +13,20 @@
 </template>
 
 <script>
-
 import {mapActions, mapGetters} from "vuex";
-import EmployeesTable from "@/components/tables/employees-table";
+import JobPositionsTable from "@/components/tables/job-positions-table";
 
 export default {
   name: 'employees-list',
-  components: {EmployeesTable},
+  components: {JobPositionsTable},
   data: () => ({
     loading: true,
     hasError: false
   }),
-  computed: mapGetters({employees: 'employee/getEmployees'}),
-  methods: mapActions({fetchEmployees: 'employee/fetchEmployees'}),
-  watch: {
-    employees(data) {
-      return data;
-    }
-  },
+  computed: mapGetters({jobPositions: 'jobPosition/getJobPositions'}),
+  methods: mapActions({fetchPositions: 'jobPosition/fetchJobPositions'}),
   async beforeMount() {
-    await this.fetchEmployees()
+    await this.fetchPositions()
         .catch(() => this.hasError = true)
         .finally(() => this.loading = false);
   }

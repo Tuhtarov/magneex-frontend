@@ -18,8 +18,47 @@ class EmployeeManager {
      */
     async create(data) {
         try {
-            const result = await axiosInstance.post('/employees/create', data);
+            const result = await axiosInstance.post('/employees/create', {user:data});
             return Promise.resolve(result.data);
+        } catch (e) {
+            return Promise.resolve(e);
+        }
+    }
+
+    /**
+     * @return {Promise<unknown>}
+     */
+    async getById(id) {
+        try {
+            const response = await axiosInstance.get(`/employees/get/${id}`);
+            const employee = this.#extractEmployee(response.data.employee)
+
+            return Promise.resolve(employee);
+        } catch (e) {
+            return Promise.resolve(e);
+        }
+    }
+
+    #extractEmployee(employeeFromResponse) {
+        const {id, people, role} = employeeFromResponse;
+
+        return  {
+            id: id,
+            people: people,
+            role: {
+                id: role.id,
+                name: role.name
+            }
+        }
+    }
+
+    /**
+     * @return {Promise<Number>}
+     */
+    async removeById(id) {
+        try {
+            const removedId = await axiosInstance.post(`/employees/delete/${id}`);
+            return Promise.resolve(removedId);
         } catch (e) {
             return Promise.resolve(e);
         }

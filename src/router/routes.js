@@ -8,7 +8,7 @@ export default [
         ...setLayout('admin')
     },
 
-    // 
+    // авторизация
     {
         path: '/login',
         name: 'login',
@@ -49,6 +49,28 @@ export default [
         component: () => import('@/views/admin/employees/create.vue'),
         ...setLayout('admin')
     },
+    {
+        path: '/employees/show/:id',
+        name: 'employees-show',
+        props: true,
+        component: () => import('@/views/admin/employees/show.vue'),
+        ...setLayout('admin')
+    },
+
+    // должности
+    {
+        path: '/job-positions',
+        name: 'job-positions-list',
+        component: () => import('@/views/admin/job-positions/list.vue'),
+        ...setLayout('admin')
+    },
+    {
+        path: '/job-positions/create',
+        name: 'job-positions-create',
+        component: () => import('@/views/admin/job-positions/create.vue'),
+        ...setLayout('admin')
+    },
+
     // ошибки
     {
         path: '/error/network-error',

@@ -13,7 +13,6 @@
               @blur="$v.name.$touch()"
               :error-messages="nameErrors">
           </v-text-field>
-
           <v-text-field
               v-model="family"
               label="Фамилия"
@@ -22,7 +21,6 @@
               @blur="$v.family.$touch()"
               :error-messages="familyErrors">
           </v-text-field>
-
           <v-text-field
               v-model="patronymic"
               label="Отчество"
@@ -31,10 +29,9 @@
               @blur="$v.patronymic.$touch()"
               :error-messages="patronymicErrors">
           </v-text-field>
-
           <v-dialog
               ref="dialog"
-              v-model="modal"
+              v-model="datePicker"
               :return-value.sync="birthday"
               persistent
               width="290px">
@@ -61,7 +58,6 @@
               </v-btn>
             </v-date-picker>
           </v-dialog>
-
         </v-col>
         <v-col class="col-12 col-sm-6">
           <v-text-field
@@ -79,39 +75,55 @@
               @blur="$v.phone.$touch()"
               :error-messages="phoneErrors"
           ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-divider class="my-2"/>
+      <v-row>
+        <v-col class="col-12 col-sm-6">
+          <choose-card
+              title="должность"
+              @change="jobPositionId = $event"
+              :items="jobPositions">
+          </choose-card>
+        </v-col>
+        <v-col class="col-12 col-sm-6">
+          <choose-card
+              title="роль"
+              @change="roleId = $event"
+              :items="roles">
+          </choose-card>
+        </v-col>
+      </v-row>
 
-          <!--Модалка выбора должности-->
-          <employee-position-choose :value="jobPositionId" @change="jobPositionId = $event"/>
+      <v-row>
+        <v-col class="d-flex flex-wrap">
+          <v-btn @click="submit" type="button" color="primary" class="mr-4">
+            Сохранить
+            <v-icon dark right> mdi-checkbox-marked-circle</v-icon>
+          </v-btn>
+          <v-spacer/>
+          <v-btn @click="clear" icon>
+            <v-icon dark>mdi-cached</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </form>
-    <v-card-actions class="flex-wrap">
-      <v-btn @click="submit" type="button" color="primary" class="mr-4">Сохранить
-        <v-icon dark right> mdi-checkbox-marked-circle</v-icon>
-      </v-btn>
-      <v-spacer/>
-      <v-btn @click="clear" icon>
-        <v-icon dark>mdi-cached</v-icon>
-      </v-btn>
-      <v-btn @click="testCreateMock" color="red">
-        Заполнить
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import employeePositionChoose from "@/components/cards/employeePositionChoose";
+import ChooseCard from "@/components/cards/chooseCard";
+
 import {validationMixin} from "vuelidate";
 import {minLength, required, email, maxLength} from "vuelidate/lib/validators";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
-const isPhone = (value) => (/^((8|\+7)?[0-9]{5,10}$)/).test(value)
 const defaultRule = {required, minLength: minLength(3), maxLength: maxLength(200)};
+const isPhone = (value) => (/^((8|\+7)?[0-9]{5,10}$)/).test(value)
 
 export default {
   name: 'employees-create-form',
-  components: {employeePositionChoose},
+  components: {ChooseCard},
 
   mixins: [validationMixin],
 
@@ -123,6 +135,7 @@ export default {
     phone: {required, minLength: minLength(11), maxLength: maxLength(12), isPhone},
     birthday: {required}
   },
+
   data: () => ({
     name: '',
     family: '',
@@ -131,9 +144,12 @@ export default {
     email: '',
     phone: '',
     jobPositionId: null,
-    modal: null
+    roleId: null,
+    datePicker: null
   }),
+
   computed: {
+    ...mapGetters({roles: 'role/getRoles', jobPositions: 'jobPosition/getJobPositions'}),
     nameErrors() {
       return this._validateInput(this.$v.name);
     },
@@ -157,20 +173,22 @@ export default {
     ...mapActions({createEmployee: 'employee/createEmployee'}),
     async submit() {
       this.$v.$touch();
-      if (!this.$v.$error) {
-        const employee = {
-          name: this.name,
-          family: this.family,
-          patronymic: this.patronymic,
-          birthday: this.birthday,
-          email: this.email,
-          phone: this.phone,
-          job_position_id: this.jobPositionId
-        }
+      if (this.$v.$error) return;
 
-        await this.createEmployee(employee);
+      const employee = {
+        name: this.name,
+        family: this.family,
+        patronymic: this.patronymic,
+        birthday: this.birthday,
+        email: this.email,
+        phone: this.phone,
+        job_position_id: this.jobPositionId,
+        role_id: this.roleId,
       }
+
+      await this.createEmployee(employee);
     },
+
     clear() {
       this.name = '';
       this.family = '';
@@ -179,16 +197,8 @@ export default {
       this.email = '';
       this.phone = '';
       this.jobPositionId = null;
+      this.roleId = null;
       this.$v.$reset();
-    },
-
-    testCreateMock() {
-      this.name = 'Тест';
-      this.family = 'Тестовый';
-      this.patronymic = 'Тестович';
-      this.birthday = '2000-10-10';
-      this.email = 'test@mail.ru';
-      this.phone = '89230004422';
     },
 
     _validateInput(input) {
@@ -224,7 +234,12 @@ export default {
 
       return errors;
     }
-  }
+  },
+
+  mounted() {
+    this.$store.dispatch('role/fetchRoles').catch(e => console.dir(e));
+    this.$store.dispatch('jobPosition/fetchJobPositions').catch(e => console.dir(e));
+  },
 };
 </script>
 

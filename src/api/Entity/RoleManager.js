@@ -9,6 +9,15 @@ class RoleManager {
             return Promise.reject(e)
         }
     }
+
+    async createRole(name) {
+        try {
+            const response = await axios.post('/roles/create', {name});
+            return Promise.resolve(response.data.role);
+        } catch (e) {
+            return Promise.reject(e)
+        }
+    }
 }
 
 export default new RoleManager();

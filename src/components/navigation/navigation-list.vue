@@ -60,8 +60,8 @@ export default {
         title: "Должности",
         icon: "mdi-crown",
         links: [
-          {icon: "mdi-format-list-checkbox", title: "Обзор", name: 'responsibilities-list'},
-          {icon: "mdi-plus", title: "Добавить", name: 'responsibilities-create'},
+          {icon: "mdi-format-list-checkbox", title: "Обзор", name: 'job-positions-list'},
+          {icon: "mdi-plus", title: "Добавить", name: 'job-positions-create'},
         ],
       },
     ],

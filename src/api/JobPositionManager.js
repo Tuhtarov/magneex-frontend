@@ -7,8 +7,10 @@ class JobPositionManager {
         })
     }
 
-    async create(data) {
-        return await axios.post('/job-positions/create', data)
+    async create(name) {
+        return await axios.post('/job-positions/create',{name})
+            .then(r => Promise.resolve(r.data.jobPosition))
+            .catch(e => Promise.reject(e));
     }
 }
 
