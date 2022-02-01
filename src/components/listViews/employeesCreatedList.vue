@@ -1,47 +1,46 @@
 <template>
-  <v-list max-width="992" v-if="employees.length > 0 || false">
-    <v-list-group
-      v-for="employee in employees"
-      :key="`${employee.people.id}`"
-      v-model="employee.active"
-      :prepend-icon="'mdi-briefcase'"
-      no-action
-    >
-      <template v-slot:activator>
-        <v-list-item-content>
-          <v-list-item-title v-text="getFNP(employee)" />
-        </v-list-item-content>
-      </template>
+  <v-card height="100%">
+    <v-card-title>Недавно созданные:</v-card-title>
+    <v-card-subtitle v-if="!notEmpty">Список пуст.</v-card-subtitle>
+    <v-list v-if="notEmpty" elevation="5">
+      <v-list-group
+          v-for="employee in employees"
+          :key="`${employee.people.id}`"
+          v-model="employee.active"
+          :prepend-icon="'mdi-briefcase'"
+          no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="getFNP(employee)" />
+          </v-list-item-content>
+        </template>
 
-      <v-list-item class="ps-4">
-        <v-list-item-content>
-          <v-card class="span-opacity">
-            <p><span>Имя:</span> {{ employee.people.name }}</p>
-            <p><span>Фамилия:</span> {{ employee.people.family }}</p>
-            <p><span>Отчество:</span> {{ employee.people.patronymic }}</p>
-            <p><span>Дата рождения:</span> {{ employee.people.birthday }}</p>
-            <p><span>Телефон:</span> {{ employee.people.phone }}</p>
-            <p><span>Email:</span> {{ employee.people.email }}</p>
-            <v-divider dark /><br />
-            <p><span>Должность:</span> {{ employee.job_position ? employee.job_position.name : "-" }}</p>
-            <p><span>Роль:</span> {{ employee.role ? employee.role.name :  "-" }}</p>
-          </v-card>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list-group>
-  </v-list>
+        <v-list-item class="ps-4">
+          <v-list-item-content>
+            <people-short-info-card :employee="employee"/>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import PeopleShortInfoCard from "@/components/cards/peopleShortInfoCard";
 
 export default {
   name: "employeesCreatedList",
+  components: {PeopleShortInfoCard},
   data: () => ({
     employees: []
   }),
   computed: {
     ...mapGetters({ recentEmployee: "employee/getRecentEmployee" }),
+    notEmpty() {
+      return this.employees.length > 0 || false;
+    },
   },
   watch: {
     recentEmployee(employee) {
@@ -51,7 +50,7 @@ export default {
   methods: {
     getFNP({people}) {
       return `${people.family} ${people.name} ${people.patronymic}`;
-    },
+    }
   },
 };
 </script>

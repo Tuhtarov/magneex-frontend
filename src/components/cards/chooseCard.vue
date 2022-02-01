@@ -1,6 +1,7 @@
 <template>
   <v-sheet class="mt-2">
     <v-card
+        outlined
         :elevation="isDark ? '4' : '2'"
         :loading="itemsLoading"
         :disabled="itemsLoading">

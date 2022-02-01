@@ -1,22 +1,23 @@
 <template>
-  <v-card elevation="3" style="max-width: 992px;">
+  <v-card elevation="3" :max-width="maxWidth" outlined>
     <v-card-title>Создать должность</v-card-title>
     <v-card-subtitle>Введите имя должности, и нажмите сохранить.</v-card-subtitle>
 
-    <form class="mx-auto form__login px-4 pb-5">
-      <v-row align-content="stretch">
-        <v-col class="col-12 col-sm-6">
-          <v-text-field
-              v-model="name"
-              label="Имя"
-              required
-              @input="$v.name.$touch()"
-              @blur="$v.name.$touch()"
-              :error-messages="nameErrors">
-          </v-text-field>
-        </v-col>
-      </v-row>
-    </form>
+    <v-card-text>
+      <v-text-field
+          v-model="name"
+          label="Имя"
+          required
+          style="max-width: 500px;"
+          @input="$v.name.$touch()"
+          @blur="$v.name.$touch()"
+          :error-messages="nameErrors">
+      </v-text-field>
+
+      <v-sheet v-show="hasError">
+        <p class="error--text">При создании должности произошла ошибка.</p>
+      </v-sheet>
+    </v-card-text>
 
     <v-card-actions class="flex-wrap">
       <v-btn @click="submit" type="button" color="primary" class="mr-4">Сохранить
@@ -36,13 +37,20 @@ import {minLength, required, maxLength} from "vuelidate/lib/validators";
 import {mapActions} from "vuex";
 
 export default {
-  name: "JobPositionCreateForm",
   mixins: [validationMixin],
   validations: {
     name: {required, minLength: minLength(2), maxLength: maxLength(200)},
   },
+
+  name: "JobPositionCreateForm",
+  props: {
+    maxWidth: {
+      type: String
+    }
+  },
   data: () => ({
     name: '',
+    hasError: false
   }),
   computed: {
     nameErrors() {
@@ -54,11 +62,19 @@ export default {
     async submit() {
       this.$v.$touch();
       if (!this.$v.$error) {
-        await this.createJobPosition(this.name)
-            .then(r => console.dir(r))
-            .catch(e => console.dir(e));
+        await this._sendRequest();
       }
     },
+    async _sendRequest() {
+        await this.createJobPosition(this.name)
+            .then(() => this.hasError = false)
+            .catch(() => this.hasError = true)
+    },
+    clear() {
+      this.name = '';
+      this.$v.$reset();
+    },
+
     validateInput(input) {
       const errors = [];
       const {$dirty, required, minLength} = input;
@@ -73,11 +89,7 @@ export default {
       }
 
       return errors;
-    },
-    clear() {
-      this.name = '';
-      this.$v.$reset();
-    },
+    }
   }
 }
 </script>

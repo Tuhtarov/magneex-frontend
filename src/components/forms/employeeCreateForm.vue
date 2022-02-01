@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="3" style="max-width: 992px;">
+  <v-card elevation="3">
     <v-card-title>Создать сотрудника</v-card-title>
     <v-card-subtitle>Заполните все поля, и нажмите кнопку сохранить.</v-card-subtitle>
     <form class="mx-auto form__login px-4 pb-5">

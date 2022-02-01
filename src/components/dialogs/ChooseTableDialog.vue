@@ -17,7 +17,7 @@
             :search="search"
             :headers="headers"
             :items="items"
-            :items-per-page="5"
+            :items-per-page="3"
             :single-select="true"
             item-key="id"
             :show-select="true"

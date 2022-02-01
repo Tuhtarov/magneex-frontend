@@ -1,66 +1,87 @@
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col>
-        <v-form :disabled="!employees">
-          <v-text-field v-model="login" type="text" label="Логин"/>
-          <v-text-field v-model="password" type="password" label="Пароль"/>
-          <v-btn @click="toggleDialog" text color="primary">
-            {{ employee ? 'Изменить сотрудника' : 'Выбрать сотрудника' }}
-          </v-btn>
+  <v-form :disabled="!employees">
+    <v-text-field
+        v-model="login"
+        type="text"
+        @input="$v.login.$touch()"
+        @blur="$v.login.$touch()"
+        :error-messages="loginErrors"
+        label="Логин"/>
 
+    <v-text-field
+        v-model="password"
+        type="password"
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+        :error-messages="passwordErrors"
+        label="Пароль"/>
 
-          <!--Выбранный сотрудник-->
-          <v-sheet class="mt-3">
-            <chosen-employee-card v-if="employee" :employee="employee" :closable="true">
-              <!--Кнопка отмены-->
-              <v-btn v-show="employee" @click="employee = null" icon color="error" small>
-                <v-icon small color="error">mdi-close</v-icon>
-              </v-btn>
-            </chosen-employee-card>
-          </v-sheet>
+    <v-btn class="mt-2" @click="toggleDialog" text color="primary">
+      {{ employee ? 'Изменить сотрудника' : 'Выбрать сотрудника' }}
+    </v-btn>
 
-          <!--Модальное окно выбора сотрудника-->
-          <choose-table-dialog
-              v-if="employees"
-              :headers="employeeHeaders"
-              :items="employees"
-              :visibility="showChooseDialog"
-              @close="toggleDialog"
-              @confirm="confirm"
-          >
-            <!--Карточка выбранного сотрудника в модальном окне-->
-            <template v-slot:selectedRow="{item}">
-              <chosen-employee-card v-if="item" :employee="item"/>
-            </template>
-          </choose-table-dialog>
+    <!--Выбранный сотрудник-->
+    <v-sheet class="my-3">
+      <chosen-employee-card v-if="employee" :employee="employee" :closable="true">
+        <!--Кнопка отмены-->
+        <v-btn v-show="employee" @click="employee = null" icon color="error" small>
+          <v-icon small color="error">mdi-close</v-icon>
+        </v-btn>
+      </chosen-employee-card>
+    </v-sheet>
 
-          <!--Если сотрудники не подгрузились-->
-          <v-progress-circular v-if="!employees" indeterminate color="primary"/>
-        </v-form>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn color="primary" @click="submit">Сохранить</v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
+    <v-btn :disabled="!formReady" color="success" @click="submit">Сохранить</v-btn>
+
+    <!--Модальное окно выбора сотрудника-->
+    <choose-table-dialog
+        v-if="employees"
+        :headers="employeeHeaders"
+        :items="employees"
+        :visibility="showChooseDialog"
+        @close="toggleDialog"
+        @confirm="confirm"
+    >
+      <!--Карточка выбранного сотрудника в модальном окне-->
+      <template v-slot:selectedRow="{item}">
+        <chosen-employee-card v-if="item" :employee="item"/>
+      </template>
+    </choose-table-dialog>
+
+    <!--Если сотрудники не подгрузились-->
+    <v-progress-circular v-else indeterminate color="primary"/>
+
+    <text-error :message="errorMessage" @close="errorMessage = null"/>
+  </v-form>
 </template>
 
 <script>
+import ChooseTableDialog from "@/components/dialogs/ChooseTableDialog";
+import ChosenEmployeeCard from "@/components/cards/chosenEmployeeCard";
+import TextError from "@/components/outputs/text-error";
+
+import {validationMixin} from "vuelidate";
 import {mapActions, mapGetters} from "vuex";
-import ChooseTableDialog from "../dialogs/ChooseTableDialog";
-import ChosenEmployeeCard from "../cards/chosenEmployeeCard";
+import {maxLength, minLength, required} from "vuelidate/lib/validators";
+import ResponseCode from "@/api/ResponseCode";
+import ErrorMessages from "@/api/ErrorMessages";
+let field = {required, minLength: minLength(2), maxLength: maxLength(200)}
 
 export default {
+  mixins: [validationMixin],
+  validations: {
+    login: field,
+    password: field,
+  },
+
   name: "userCreateForm",
-  components: {ChosenEmployeeCard, ChooseTableDialog},
+  components: {TextError, ChosenEmployeeCard, ChooseTableDialog},
   data: () => ({
     login: '',
     password: '',
     employee: null,
+
     showChooseDialog: false,
+    errorMessage: '',
 
     employeeHeaders: [
       {text: '#', value: 'id'},
@@ -68,14 +89,35 @@ export default {
       {text: 'Роль', value: 'role.name'}
     ]
   }),
+
   computed: {
-    ...mapGetters({employees: 'employee/getEmployees'})
+    ...mapGetters({employees: 'employee/getEmployees'}),
+    loginErrors() {
+      return this.validateInput(this.$v.login);
+    },
+    passwordErrors() {
+      return this.validateInput(this.$v.password);
+    },
+    formReady() {
+      const fieldNotEmpty = this.employee !== null && this.login !== '' && this.password !== '';
+      return !this.$v.$error && fieldNotEmpty;
+    },
   },
+
   methods: {
     ...mapActions({createUser: 'user/createUser'}),
     async submit() {
-      const user = {login: this.login, password: this.password, employeeId: this.employee.id}
-      await this.createUser(user).then(r => console.dir(r)).catch(e => console.dir(e));
+      this.$v.$touch();
+
+      if (this.formReady) {
+        const user = {login: this.login, password: this.password, employeeId: this.employee.id};
+        await this.createUser(user)
+            .then(r => console.dir(r))
+            .catch(e => {
+              this.password = ''
+              this.printError(e)
+            });
+      }
     },
 
     confirm(selectedItem) {
@@ -84,7 +126,34 @@ export default {
     toggleDialog() {
       this.showChooseDialog = !this.showChooseDialog
     },
+
+    // валидация
+    validateInput(input) {
+      const errors = [];
+      const {$dirty, required, minLength} = input;
+      if (!$dirty) return errors;
+
+      !required && errors.push("Поле обязательно.");
+
+      const minText = input?.$params?.minLength?.min;
+
+      if (minText !== undefined && minText !== null) {
+        !minLength && errors.push(`Минимальное количество символов: ${minText}`);
+      }
+
+      return errors;
+    },
+
+    printError(error) {
+      const code = error.response.status;
+      if (code === ResponseCode.HTTP_UNPROCESSABLE_ENTITY) {
+        this.errorMessage = ErrorMessages.DUPLICATE_ENTITY_KEY;
+        return;
+      }
+      console.dir(error)
+    },
   },
+
   async beforeMount() {
     await this.$store.dispatch('employee/fetchEmployees')
         .catch(err => console.dir(err));

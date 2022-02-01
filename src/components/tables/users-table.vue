@@ -18,9 +18,10 @@ export default {
   data: () => ({
     search: '',
     headers: [
-      {text: '#', value: 'id'},
-      {text: 'Логин', value: 'login'},
-      {text: 'Сотрудник', value: 'employee.people.name'},
+      {text: '#', value: 'id', width: '50px'},
+      {text: 'Логин', value: 'login', width: '250px'},
+      {text: 'Сотрудник', value: 'employee.people.name', width: '250px'},
+      {text: 'Роль', value: 'employee.role.name'},
     ]
   })
 }

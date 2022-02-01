@@ -1,11 +1,12 @@
 <template>
-  <v-card>
+  <v-card class="table-persistence-height" outlined>
     <template v-if="employeesNotEmpty">
       <v-card-title>
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
             label="Search"
+            style="max-width: 500px;"
             single-line
             hide-details
         ></v-text-field>
@@ -54,13 +55,15 @@ export default {
   data: () => ({
     search: '',
     headers: [
-      {text: '#', value: 'id'},
-      {text: 'Имя', align: 'start', value: 'people.name',},
-      {text: 'Фамилия', value: 'people.family'},
+      {text: '#', value: 'id', width: '50px'},
+      {text: 'Имя', align: 'start', value: 'people.name', width: '250px'},
+      {text: 'Фамилия', value: 'people.family', width: '250px'},
       // {text: 'Отчество', value: 'people.patronymic'},
       // {text: 'Дата рождения', value: 'people.birthday'},
       {text: 'Почта', value: 'people.email'},
       {text: 'Телефон', value: 'people.phone'},
+      {text: 'Роль', value: 'role.name'},
+      {text: 'Должность', value: 'job_position.name'},
       {text: 'Действия', value: 'actions'},
     ],
     confirmDialog: false,
@@ -92,5 +95,13 @@ export default {
 </script>
 
 <style scoped>
+.table-persistence-height {
+  min-height: 731px;
+}
 
+@media screen and (max-width: 600px) {
+  .table-persistence-height {
+    min-height: unset;
+  }
+}
 </style>

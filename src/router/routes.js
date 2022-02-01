@@ -3,7 +3,7 @@ import Home from "@/views/Home";
 export default [
     {
         path: '/',
-        name: 'Home',
+        name: 'main',
         component: Home,
         ...setLayout('admin')
     },
@@ -25,28 +25,16 @@ export default [
     // пользователи
     {
         path: '/users',
-        name: 'users-list',
-        component: () => import('@/views/admin/users/list.vue'),
-        ...setLayout('admin')
-    },
-    {
-        path: '/users/create',
-        name: 'users-create',
-        component: () => import('@/views/admin/users/create.vue'),
+        name: 'users',
+        component: () => import('@/views/admin/users/index.vue'),
         ...setLayout('admin')
     },
 
     // сотрудники
     {
         path: '/employees',
-        name: 'employees-list',
-        component: () => import('@/views/admin/employees/list.vue'),
-        ...setLayout('admin')
-    },
-    {
-        path: '/employees/create',
-        name: 'employees-create',
-        component: () => import('@/views/admin/employees/create.vue'),
+        name: 'employees',
+        component: () => import('@/views/admin/employees/index.vue'),
         ...setLayout('admin')
     },
     {
@@ -56,21 +44,13 @@ export default [
         component: () => import('@/views/admin/employees/show.vue'),
         ...setLayout('admin')
     },
-
     // должности
     {
         path: '/job-positions',
-        name: 'job-positions-list',
-        component: () => import('@/views/admin/job-positions/list.vue'),
+        name: 'job-positions',
+        component: () => import('@/views/admin/job-positions/index.vue'),
         ...setLayout('admin')
     },
-    {
-        path: '/job-positions/create',
-        name: 'job-positions-create',
-        component: () => import('@/views/admin/job-positions/create.vue'),
-        ...setLayout('admin')
-    },
-
     // ошибки
     {
         path: '/error/network-error',

@@ -7,7 +7,9 @@ class EmployeeManager {
     async fetchAll() {
         try {
             const response = await axiosInstance.get('/employees');
-            return Promise.resolve(response.data.employees);
+            const employees = response.data.employees;
+            // console.dir(employees)
+            return Promise.resolve(employees);
         } catch (e) {
             return Promise.reject(e)
         }
@@ -40,14 +42,18 @@ class EmployeeManager {
     }
 
     #extractEmployee(employeeFromResponse) {
-        const {id, people, role} = employeeFromResponse;
+        const {id, people, role, job_position} = employeeFromResponse;
 
         return  {
             id: id,
             people: people,
             role: {
                 id: role.id,
-                name: role.name
+                name: role.name,
+            },
+            job_position: {
+                id: job_position.id,
+                name: job_position.name
             }
         }
     }

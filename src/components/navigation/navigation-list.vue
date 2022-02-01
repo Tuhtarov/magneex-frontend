@@ -1,73 +1,72 @@
 <template>
   <v-list nav>
-    <v-list-item>
-      <v-list-item-icon>
-        <v-icon>mdi-home</v-icon>
-      </v-list-item-icon>
+    <template v-for="item in navItems">
+      <!--Одиночная ссылка-->
+      <navigation-item
+          v-if="item.single"
+          :key="item.title"
+          :navItem="item">
+      </navigation-item>
 
-      <v-list-item-title>Главная</v-list-item-title>
-    </v-list-item>
+      <!--Раскрывающиеся ссылки-->
+      <v-list-group
+          v-else
+          :key="item.title"
+          :prepend-icon="item.icon">
 
-    <v-list-group
-        v-for="(navItem, i) in navItems"
-        :key="navItem.title + i"
-        :prepend-icon="navItem.icon"
-    >
-      <template v-slot:activator>
-        <v-list-item-title>{{ navItem.title }}</v-list-item-title>
-      </template>
+        <template v-slot:activator>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </template>
 
-      <v-divider/>
+        <v-divider/>
 
-      <v-list-item
-          v-for="link in navItem.links"
-          :key="link.title + link.icon"
-          :to="{name: link.name}"
-          link>
-        <v-list-item-icon>
-          <v-icon dark>{{ link.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ link.title }}</v-list-item-title>
-      </v-list-item>
-
-      <v-divider/>
-    </v-list-group>
+        <navigation-item
+            v-for="link in item.links"
+            :key="link.title"
+            :navItem="link">
+        </navigation-item>
+        <v-divider/>
+      </v-list-group>
+    </template>
   </v-list>
 </template>
 
 <script>
+import NavigationItem from '@/components/navigation/navigation-item-single';
+
 export default {
   name: "navigationList",
+  components: {NavigationItem},
+
   data: () => ({
     navItems: [
       {
+        single: true,
+        title: "Главная",
+        icon: "mdi-home",
+        routeName: 'main'
+      },
+      {
+        single: true,
         title: "Сотрудники",
         icon: "mdi-account-group",
-        links: [
-          {icon: "mdi-format-list-checkbox", title: "Обзор", name: 'employees-list'},
-          {icon: "mdi-plus", title: "Добавить", name: 'employees-create'},
-        ],
+        routeName: 'employees'
       },
       {
+        single: true,
         title: "Пользователи",
         icon: "mdi-account-supervisor-circle",
-        links: [
-          {icon: "mdi-format-list-checkbox", title: "Обзор", name: 'users-list'},
-          {icon: "mdi-plus", title: "Добавить", name: 'users-create'},
-        ],
+        routeName: 'users'
       },
       {
+        single: true,
         title: "Должности",
         icon: "mdi-crown",
-        links: [
-          {icon: "mdi-format-list-checkbox", title: "Обзор", name: 'job-positions-list'},
-          {icon: "mdi-plus", title: "Добавить", name: 'job-positions-create'},
-        ],
+        routeName: 'job-positions'
       },
     ],
   }),
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
