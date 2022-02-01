@@ -44,6 +44,7 @@ export default {
                     dispatch('addEmployee', newEmployee)
                     return Promise.resolve(newEmployee)
                 })
+                .catch(e => Promise.reject(e));
         },
         async getEmployeeById(store, id) {
             return await employeeManager.getById(id)

@@ -8,7 +8,7 @@ class JobPositionManager {
     }
 
     async create(name) {
-        return await axios.post('/job-positions/create',{name})
+        return await axios.post('/job-positions/create', {name})
             .then(r => Promise.resolve(r.data.jobPosition))
             .catch(e => Promise.reject(e));
     }

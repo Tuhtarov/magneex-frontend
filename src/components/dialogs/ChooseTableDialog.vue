@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="visibility" max-width="560" persistent>
-    <v-card height="500">
+    <v-card>
       <v-card-title>{{ title }}</v-card-title>
       <v-card-subtitle>
         <v-text-field

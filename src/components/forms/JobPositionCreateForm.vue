@@ -55,6 +55,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$error) {
         await this.createJobPosition(this.name)
+            .then(r => console.dir(r))
             .catch(e => console.dir(e));
       }
     },

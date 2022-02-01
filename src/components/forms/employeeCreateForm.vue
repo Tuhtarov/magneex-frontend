@@ -49,11 +49,11 @@
               ></v-text-field>
             </template>
             <v-date-picker v-model="birthday" scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="modal = false">
+              <v-btn text color="error" @click="datePicker = false">
                 Отмена
               </v-btn>
-              <v-btn text color="primary" @click="$refs.dialog.save(birthday)">
+              <v-spacer></v-spacer>
+              <v-btn text color="success" @click="$refs.dialog.save(birthday)">
                 Ок
               </v-btn>
             </v-date-picker>

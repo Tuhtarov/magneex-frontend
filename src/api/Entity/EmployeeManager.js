@@ -18,7 +18,7 @@ class EmployeeManager {
      */
     async create(data) {
         try {
-            const result = await axiosInstance.post('/employees/create', {user:data});
+            const result = await axiosInstance.post('/employees/create', data);
             return Promise.resolve(result.data);
         } catch (e) {
             return Promise.resolve(e);
