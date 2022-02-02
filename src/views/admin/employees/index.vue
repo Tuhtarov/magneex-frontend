@@ -14,7 +14,7 @@
     <v-row>
       <!--Таблица сотрудников-->
       <v-col>
-        <v-card :loading="loading">
+        <v-card :loading="loading" elevation="3">
           <v-card-title>Сотрудники</v-card-title>
           <v-card-text v-if="!loading">
             <employees-table :employees="employees"/>

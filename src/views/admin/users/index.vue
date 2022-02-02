@@ -9,15 +9,23 @@
             Введите логин, пароль, и выберите сотрудника.
           </v-card-subtitle>
 
-          <v-card-text style="max-width: 992px;">
-            <user-create-form/>
+          <v-card-text>
+            <v-card outlined elevation="2">
+              <v-card-text style="max-width: 992px;">
+                <user-create-form/>
+              </v-card-text>
+            </v-card>
           </v-card-text>
 
           <!--Таблица с пользователями-->
           <v-card-title>Пользователи</v-card-title>
           <v-card-text>
-            <users-table v-if="users" :users="users"/>
-            <v-progress-circular v-else indeterminate color="primary"/>
+            <v-card outlined elevation="2">
+              <users-table v-if="users" :users="users"/>
+              <v-card-text  v-else>
+                <v-progress-circular indeterminate color="primary"/>
+              </v-card-text>
+            </v-card>
           </v-card-text>
         </v-card>
       </v-col>
