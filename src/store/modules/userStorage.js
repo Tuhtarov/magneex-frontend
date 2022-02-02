@@ -1,56 +1,45 @@
-import userManager from "@/api/UserManager.js";
-
-let userAlreadyFetched = false;
+import manager from "@/api/UserManager.js";
 
 export default {
     state: {
-        user: null,
+        currentUser: null,
         users: [],
-        errorResponse: null
     },
     getters: {
-        getUser: state => state.user,
+        getCurrentUser: state => state.currentUser,
+        getCurrentRole: state => state.currentUser.role,
+        userIsReady: state => state.currentUser !== null,
         getUsers: state => state.users,
-        getCurrentRole: state => state.user.role,
-        userIsReady: state => state.user !== null,
-        getErrorResponse: state => state.errorResponse
     },
     mutations: {
-        setUser: (state, user) => state.user = user,
+        setCurrentUser: (state, user) => state.currentUser = user,
         setUsers: (state, users) => state.users = users,
-        setErrorResponse: (state, error) => state.errorResponse = error,
         pushToUsers: (state, user) => state.users.push(user)
     },
     actions: {
-        async getUser({commit}) {
-            if (!userAlreadyFetched) {
-                userAlreadyFetched = true;
-
-                const user = await userManager.getUser();
-
-                if (user) {
-                    commit('setUser', user);
-                } else if (userManager.hasResponseError()) {
-                    commit('setErrorResponse', userManager.getResponseError())
-                }
-            }
+        async fetchCurrentUser({dispatch}) {
+            return await dispatch('request', {
+                mutation: 'setCurrentUser', promise: manager.getCurrent()
+            })
         },
-        async fetchUsers({commit}) {
-            return await userManager.getUsers()
-                .then(users => {
-                    commit('setUsers', users);
-                    return Promise.resolve(users);
-                })
-                .catch(e => Promise.reject(e));
+        async fetchUsers({dispatch}) {
+            return await dispatch('request', {
+                mutation: 'setUsers', promise: manager.getAll()
+            })
         },
-        async createUser({commit}, user) {
-            return await userManager.create(user)
-                .then(createdUser => {
-                    commit('pushToUsers', createdUser)
-                    return Promise.resolve(createdUser)
+        async createUser({dispatch}, user) {
+            return await dispatch('request', {
+                mutation: 'pushToUsers', promise: manager.create(user)
+            })
+        },
+        async request({commit}, {mutation, promise}) {
+            return await promise
+                .then(data => {
+                    commit(mutation, data)
+                    return Promise.resolve(data)
                 })
                 .catch(err => Promise.reject(err));
-        }
+        },
     },
     namespaced: true
 }

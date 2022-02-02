@@ -16,7 +16,7 @@
 
 <script>
 import appBarMenu from "./app-bar-menu";
-import {mapGetters, mapActions} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: "appBar",
@@ -28,14 +28,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({user: 'user/getUser'})
+    ...mapGetters({user: 'user/getCurrentUser'})
   },
-  methods: {
-    ...mapActions({getUser: 'user/getUser'})
-  },
-  beforeMount() {
-    this.getUser();
-  }
 }
 </script>
 

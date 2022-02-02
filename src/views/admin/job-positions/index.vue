@@ -1,23 +1,19 @@
 <template>
-  <v-container fluid style="max-width: 1920px;">
-    <v-row>
-      <v-col>
-        <v-card :loading="loading">
-          <!--Форма создания-->
-          <v-card-text>
-            <job-position-create-form :maxWidth="'650'"/>
-          </v-card-text>
+  <v-col>
+    <v-card :loading="loading">
+      <!--Форма создания-->
+      <v-card-text>
+        <job-position-create-form :maxWidth="'650'"/>
+      </v-card-text>
 
-          <!--Таблица-->
-          <v-card-text>
-            <job-positions-table v-if="!loading" :positions="jobPositions"/>
-            <br>
-            <p class="error--text" v-if="hasError">При получении данных возникла ошибка.</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+      <!--Таблица-->
+      <v-card-text>
+        <job-positions-table v-if="!loading" :positions="jobPositions"/>
+        <br>
+        <p class="error--text" v-if="hasError">При получении данных возникла ошибка.</p>
+      </v-card-text>
+    </v-card>
+  </v-col>
 </template>
 
 <script>

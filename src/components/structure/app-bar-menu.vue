@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import ThemeSwitch from "@/components/inputs/themeSwitch";
 
 export default {
@@ -40,20 +40,14 @@ export default {
   components: {ThemeSwitch},
   computed: {
     ...mapGetters({
-      user: "user/getUser",
+      user: "user/getCurrentUser",
     }),
   },
   methods: {
-    ...mapActions({
-      getUser: "user/getUser",
-    }),
-    async onLogout() {
+    onLogout() {
       this.$router.push({ name: "logout" });
     },
-  },
-  beforeMount() {
-    this.getUser();
-  },
+  }
 };
 </script>
 

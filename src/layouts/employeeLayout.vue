@@ -3,7 +3,9 @@
     <app-bar :includeBurger="false" />
     <v-main>
       <v-container fluid>
-        <router-view></router-view>
+        <v-row>
+          <router-view />
+        </v-row>
       </v-container>
     </v-main>
   </v-app>

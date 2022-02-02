@@ -1,25 +1,21 @@
 <template>
-  <v-container class="fill-height">
-    <v-row>
-      <v-card class="ma-auto pa-10" :disabled="authLoading">
-        <v-card-title>
-          <span class="d-block mx-auto">Авторизация</span>
-        </v-card-title>
+  <v-card class="ma-auto pa-10" :disabled="authLoading">
+    <v-card-title>
+      <span class="d-block mx-auto">Авторизация</span>
+    </v-card-title>
 
-        <login-form
-            @onAuthError="errorMessage = $event"
-            @onAuthLoading="authLoading = $event"
-        />
+    <login-form
+        @onAuthError="errorMessage = $event"
+        @onAuthLoading="authLoading = $event"
+    />
 
-        <v-card-text
-            v-if="errorMessage"
-            class="px-0 red--text"
-            color="transparent">
-          {{ errorMessage }}
-        </v-card-text>
-      </v-card>
-    </v-row>
-  </v-container>
+    <v-card-text
+        v-if="errorMessage"
+        class="px-0 red--text"
+        color="transparent">
+      {{ errorMessage }}
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import loginForm from "@/components/forms/loginForm";

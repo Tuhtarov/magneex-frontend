@@ -1,49 +1,25 @@
 import token from '@/api/TokenManager.js'
 import axiosInstance from '@/api/Axios.js';
-import codes from '@/api/ResponseCode.js';
 
 class UserManager {
-    responseError = null;
+    async getCurrent() {
+        if (token.isEmpty()) return;
 
-    getUser = async () => {
-        let user = null;
-
-        if (token.isEmpty()) return user;
-
-        try {
-            const response = await axiosInstance.get('/user/current');
-
-            if (response.status === codes.HTTP_OK) {
-                user = response.data.user;
-            }
-        } catch (e) {
-            this.responseError = e;
-        }
-
-        return user;
+        return await axiosInstance.get('/user/current')
+            .then(res => Promise.resolve(res.data.user))
+            .catch(err => Promise.reject(err));
     }
 
-    getUsers = async () => {
-        try {
-            const response = await axiosInstance.get('/user/all');
-            return Promise.resolve(response.data.users);
-        } catch (e) {
-            return Promise.reject(e);
-        }
+    async getAll() {
+        return await axiosInstance.get('/user/all')
+            .then(response => Promise.resolve(response.data.users))
+            .catch(err => Promise.reject(err));
     }
 
-    create = async (user) => {
+    async create(user) {
         return await axiosInstance.post('/user/create', {user: user})
             .then(response => Promise.resolve(response.data.user))
             .catch(error => Promise.reject(error))
-    }
-
-    hasResponseError = () => {
-        return !!this.responseError;
-    }
-
-    getResponseError = () => {
-        return this.responseError;
     }
 }
 

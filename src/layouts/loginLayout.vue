@@ -7,7 +7,11 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <v-container class="fill-height">
+        <v-row>
+          <router-view/>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>

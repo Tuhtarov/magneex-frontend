@@ -1,21 +1,31 @@
 <template>
   <component :is="dashboard"/>
+<!--  <text-error v-show="dashboard === null" :message="'Не удалось прогрузить компонент домашней страницы'"/>-->
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import TextError from "@/components/outputs/text-error";
 
 export default {
   name: 'Home',
-  data: () => ({dashboard: null}),
+  components: {TextError},
+  data: () => ({
+    dashboard: null
+  }),
   computed: {
-    ...mapGetters({user: 'user/getUser'})
+    ...mapGetters({currentUser: 'user/getCurrentUser'}),
   },
-  watch: {
-    user() {
-      // const role = this.user;
-      // this.dashboard = () => import(`@/components/dashboards/${role}Dashboard.vue`)
-      this.dashboard = () => import(`@/components/dashboards/adminDashboard.vue`)
+  methods: {
+    loadHomeForRole(name) {
+        this.dashboard = () => import(`@/components/dashboards/${name}Dashboard.vue`);
+    },
+  },
+  mounted() {
+    let name = this.currentUser?.role;
+    console.log(name)
+    if (name) {
+      this.loadHomeForRole(name)
     }
   }
 }

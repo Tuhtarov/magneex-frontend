@@ -13,8 +13,10 @@
     <app-bar @clickNavIcon="onNavClick"/>
 
     <v-main>
-      <v-container fluid>
-        <router-view></router-view>
+      <v-container fluid style="max-width: 1920px;">
+        <v-row>
+          <router-view></router-view>
+        </v-row>
       </v-container>
 
       <app-footer/>
@@ -26,7 +28,6 @@
 import appBar from "@/components/structure/app-bar";
 import appFooter from "@/components/structure/app-footer";
 import navigationList from "@/components/navigation/navigation-list";
-import responseMessages from "@/api/ResponseMessages";
 import {mapGetters} from "vuex";
 
 export default {
@@ -41,14 +42,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({userReady: 'user/userIsReady', responseError: 'user/getErrorResponse'})
-  },
-  watch: {
-    responseError(error) {
-      if (error?.message === responseMessages.NETWORK_ERROR_RESPONSE) {
-        this.$router.push({name: '408'});
-      }
-    }
+    ...mapGetters({userReady: 'user/userIsReady'})
   }
 };
 </script>

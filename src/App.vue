@@ -15,6 +15,9 @@ export default {
       return () => import(`@/layouts/${name}.vue`)
     }
   },
+  beforeMount() {
+    this.$store.dispatch('user/fetchCurrentUser');
+  },
   mounted() {
     initTheme.apply(this);
   }
