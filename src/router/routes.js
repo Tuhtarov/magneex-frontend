@@ -22,6 +22,23 @@ export default [
         ...setLayout('login')
     },
 
+    // qr код
+    {
+        path: '/qr',
+        name: 'qr',
+        component: () => import('@/views/admin/qr-codes/index.vue'),
+        ...setLayout('qr')
+    },
+
+
+    // mercury
+    {
+        path: '/qr/mercury-subscriber',
+        name: 'mercury-subscriber',
+        component: () => import('@/views/admin/qr-codes/mercury-subscriber.vue'),
+        ...setLayout('admin')
+    },
+
     // пользователи
     {
         path: '/users',

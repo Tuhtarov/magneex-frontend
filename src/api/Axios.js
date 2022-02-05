@@ -5,19 +5,19 @@ import messages from "@/api/ResponseMessages.js"
 
 let tokenValue = token.getSaved();
 
-const axiosConfig = {
+export const axiosConfig = {
     baseURL: 'http://127.0.0.1:8000/api',
     headers: {
         'Content-Type': 'application/json',
     }
 }
 
-const axiosInstance = axios.create(axiosConfig);
+export const axiosInstance = axios.create(axiosConfig);
 
 export const loginInstance = axios.create(axiosConfig);
 
 
-/** Ставим в каждый запрос на сервак токен авторизации */
+/** Ставим токен авторизации в каждый запрос на сервер */
 axiosInstance.interceptors.request.use(config => {
     if (tokenValue) {
         config.headers['Authorization'] = `Bearer ${tokenValue}`;
@@ -27,7 +27,7 @@ axiosInstance.interceptors.request.use(config => {
 }, error => Promise.reject(error))
 
 
-/** Обработка ошибок во время получения ответа */
+/** Проверяем каждый ответ сервера на валидность авторизации */
 axiosInstance.interceptors.response.use(config => config,
     error => {
         if (error?.message === messages.NETWORK_ERROR_RESPONSE && error.response === undefined) {

@@ -48,6 +48,18 @@ export default {
       },
       {
         single: true,
+        title: "QR код",
+        icon: "mdi-close",
+        routeName: 'qr'
+      },
+      {
+        single: true,
+        title: "Тестирование Mercury",
+        icon: "mdi-close",
+        routeName: 'mercury-subscriber'
+      },
+      {
+        single: true,
         title: "Сотрудники",
         icon: "mdi-account-group",
         routeName: 'employees'
