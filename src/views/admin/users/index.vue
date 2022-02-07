@@ -2,7 +2,7 @@
   <v-col>
     <v-card>
       <!--Форма создания пользователя-->
-      <v-card-title>Создать пользователя</v-card-title>
+      <v-card-title>Добавить пользователя</v-card-title>
       <v-card-subtitle>
         Введите логин, пароль, и выберите сотрудника.
       </v-card-subtitle>

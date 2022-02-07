@@ -22,26 +22,30 @@ class QrSubscriber {
 
     /**
      * Подписываемся на обновления сервера.
-     * @param callbackOnQrUpdate {function}
+     * @param cbUpdate {function}
+     * @param cbError {function}
      */
-    startSession = async (callbackOnQrUpdate) => {
+    startSession = async (cbUpdate, cbError) => {
         try {
-            const config = await centrifugoConnection.fetchConfigForConnection()
-            this.init(config)
+            const connection = await centrifugoConnection.fetchConnection()
+            this.init(connection.config)
+            cbUpdate(connection.qr)
+
         } catch (e) {
+            cbError('При попытке соединения с сервером возникла ошибка.')
             console.dir(e)
         }
 
         this.#centrifuge.connect();
-        this.#centrifuge.subscribe(this.channel, event => {
-            callbackOnQrUpdate(event.data)
+        this.#centrifuge.subscribe(this.channel, ({data}) => {
+            cbUpdate(data.qr)
         });
     }
 
     /**
      * Закрываем соединение с сервером.
      */
-    stopSession() {
+    closeSession() {
         if (this.#centrifuge && this.#centrifuge.isConnected()) {
             this.#centrifuge.disconnect();
         }

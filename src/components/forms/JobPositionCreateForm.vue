@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="3" :max-width="maxWidth" outlined>
-    <v-card-title>Создать должность</v-card-title>
+    <v-card-title>Добавить должность</v-card-title>
     <v-card-subtitle>Введите имя должности, и нажмите сохранить.</v-card-subtitle>
 
     <v-card-text>

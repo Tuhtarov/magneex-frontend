@@ -30,15 +30,6 @@ export default [
         ...setLayout('qr')
     },
 
-
-    // mercury
-    {
-        path: '/qr/mercury-subscriber',
-        name: 'mercury-subscriber',
-        component: () => import('@/views/admin/qr-codes/mercury-subscriber.vue'),
-        ...setLayout('admin')
-    },
-
     // пользователи
     {
         path: '/users',
