@@ -23,4 +23,4 @@ class UserManager {
     }
 }
 
-export default new UserManager;
+export default new UserManager();

@@ -3,11 +3,8 @@
     <v-card-title class="justify-center">Отсканируй это 🙃</v-card-title>
 
     <v-card-text>
-      <div v-if="qr" class="qr--container">
-        <vue-qr
-            :text="qr"
-            :size="300"
-        />
+      <div v-if="qrUrl" class="qr--container">
+        <vue-qr :text="qrUrl" :size="qrSize"/>
       </div>
     </v-card-text>
 
@@ -18,30 +15,35 @@
 </template>
 
 <script>
-import qrSubscriber from "@/api/QR/QrSubscriber";
-import TextError from "@/components/outputs/text-error";
 import {mapGetters, mapMutations} from "vuex";
+
 import VueQr from "vue-qr";
-import qrScanner from "../../../api/QR/QrScanner";
+import TextError from "@/components/outputs/text-error";
+import qrUrlManager from "@/api/QR/QrUrlManager";
+import qrSubscriber from "@/api/QR/QrSubscriber";
 
 export default {
   name: "mercury-subscriber",
   components: {TextError, VueQr},
   data: () => ({
     loading: true,
+    qrSize: 300,
     errMsg: null,
   }),
   computed: {
-    ...mapGetters({qr: "qr/getQR"}),
+    ...mapGetters({qrUrl: "qr/getQR"}),
   },
   methods: {
-    ...mapMutations({setQr: "qr/setQR"}),
+    ...mapMutations({setQrUrl: "qr/setQR"}),
     closeSession() {
       qrSubscriber.closeSession();
     },
     connect() {
       qrSubscriber.startSession(
-          (qr) => this.setQr(qrScanner.getScanUrl(qr.token)),
+          (qr) => {
+            const scanUrl = qrUrlManager.getScanUrl(qr.token);
+            this.setQrUrl(scanUrl)
+          },
           (err) => this.errMsg = err
       );
     },

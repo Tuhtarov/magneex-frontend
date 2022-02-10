@@ -1,7 +1,7 @@
 import {BASE_API_URL} from "@/api/Axios";
 import axiosInstance from "@/api/Axios";
 
-class QrScanner {
+class QrUrlManager {
     async scanTest(scanUrl) {
         return await axiosInstance.get(scanUrl)
             .then(res => Promise.resolve(res.data))
@@ -17,4 +17,4 @@ class QrScanner {
     }
 }
 
-export default new QrScanner();
+export default new QrUrlManager();
