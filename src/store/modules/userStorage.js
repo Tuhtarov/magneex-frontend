@@ -1,4 +1,4 @@
-import manager from "@/api/UserManager.js";
+import manager from "@/api/Entity/UserManager.js";
 
 export default {
     state: {

@@ -1,4 +1,4 @@
-import jobPositionManager from "@/api/JobPositionManager";
+import jobPositionManager from "@/api/Entity/JobPositionManager";
 
 export default {
     namespaced: true,
@@ -15,15 +15,15 @@ export default {
     actions: {
         async fetchJobPositions({commit}) {
             return await jobPositionManager.fetch().then(positions => {
-                commit('setJobPositions', positions)
-                return Promise.resolve(positions);
+                commit('setJobPositions', positions);
+                return positions;
             })
         },
 
         async createJobPosition({commit}, position) {
             return await jobPositionManager.create(position).then(newPosition => {
-                commit('pushJobPosition', newPosition)
-                return Promise.resolve(newPosition)
+                commit('pushJobPosition', newPosition);
+                return newPosition;
             })
         },
     },

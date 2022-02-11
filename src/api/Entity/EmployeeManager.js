@@ -6,8 +6,7 @@ class EmployeeManager {
      */
     async fetchAll() {
         return await axiosInstance.get('/employees')
-            .then(res => Promise.resolve(res.data.employees))
-            .catch(err => Promise.reject(err));
+            .then(res => res.data.employees)
     }
 
     /**
@@ -15,8 +14,7 @@ class EmployeeManager {
      */
     async create(data) {
         return await axiosInstance.post('/employees/create', data)
-            .then(res => Promise.resolve(res.data.employee))
-            .catch(err => Promise.resolve(err));
+            .then(res => res.data.employee)
     }
 
 
@@ -24,27 +22,24 @@ class EmployeeManager {
      * @return {Promise<unknown>}
      */
     async edit(data) {
-        return await axiosInstance.post('/employees/edit', data)
-            .then(res => Promise.resolve(res.data))
-            .catch(err => Promise.resolve(err));
+        return await axiosInstance.patch('/employees/edit', data)
+            .then(res => res.data)
     }
 
     /**
      * @return {Promise<unknown>}
      */
     async getById(id) {
-        await axiosInstance.get(`/employees/get/${id}`)
-            .then(res => Promise.resolve(res.data.employee))
-            .catch(err => Promise.reject(err));
+        return await axiosInstance.get(`/employees/get/${id}`)
+            .then(res => res.data.employee)
     }
 
     /**
      * @return {Promise<Number>}
      */
     async removeById(id) {
-        await axiosInstance.delete(`/employees/delete/${id}`)
-            .then(res => Promise.resolve(res))
-            .catch(err => Promise.reject(err));
+        return await axiosInstance.delete(`/employees/delete/${id}`)
+            .then(res => res.data)
     }
 }
 

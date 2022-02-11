@@ -5,11 +5,11 @@ import messages from "@/api/ResponseMessages.js"
 
 
 /**
- * 
- * @param string login 
- * @param string password 
- * @param callback onSuccess
- * @param callback onError 
+ *
+ * @param login
+ * @param password
+ * @param onSuccess
+ * @param onError
  */
 export async function login(login, password, onSuccess = null, onError = null) {
     try {

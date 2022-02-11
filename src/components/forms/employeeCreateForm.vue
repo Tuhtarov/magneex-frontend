@@ -2,7 +2,7 @@
   <v-card elevation="3">
     <v-card-title>Добавить сотрудника</v-card-title>
     <v-card-subtitle>Заполните все поля, и нажмите кнопку сохранить.</v-card-subtitle>
-    <form class="mx-auto form__login px-4 pb-5">
+    <v-form class="mx-auto form__login px-4 pb-5">
       <v-row align-content="stretch">
         <v-col class="col-12 col-sm-6">
           <v-text-field
@@ -107,7 +107,7 @@
           </v-btn>
         </v-col>
       </v-row>
-    </form>
+    </v-form>
   </v-card>
 </template>
 
@@ -145,7 +145,8 @@ export default {
     phone: '',
     jobPositionId: null,
     roleId: null,
-    datePicker: null
+
+    datePicker: null,
   }),
 
   computed: {
@@ -237,8 +238,8 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('role/fetchRoles').catch(e => console.dir(e));
-    this.$store.dispatch('jobPosition/fetchJobPositions').catch(e => console.dir(e));
+    this.$store.dispatch('role/fetchRoles')
+    this.$store.dispatch('jobPosition/fetchJobPositions')
   },
 };
 </script>

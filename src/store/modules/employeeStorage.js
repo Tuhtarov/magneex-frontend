@@ -42,22 +42,18 @@ export default {
             return await employeeManager.create(data)
                 .then(newEmployee => {
                     dispatch('addEmployee', newEmployee)
-                    return Promise.resolve(newEmployee)
+                    return newEmployee
                 })
-                .catch(e => Promise.reject(e));
         },
         async getEmployeeById(store, id) {
             return await employeeManager.getById(id)
-                .then(r => Promise.resolve(r))
-                .catch(e => Promise.reject(e));
         },
         async deleteEmployeeById({commit}, id) {
             return await employeeManager.removeById(id)
-                .then(removedId => {
+                .then(() => {
                     commit('removeEmployeeById', id);
-                    return Promise.resolve(removedId);
+                    return id;
                 })
-                .catch(e => Promise.reject(e));
         },
     },
     namespaced: true

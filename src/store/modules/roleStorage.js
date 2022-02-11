@@ -16,19 +16,17 @@ export default {
         async fetchRoles({commit}) {
             return roleManager.fetchAll()
                 .then(roles => {
-                    commit('setRoles', roles)
-                    return Promise.resolve(roles)
+                    commit('setRoles', roles);
+                    return roles
                 })
-                .catch(error => Promise.reject(error));
         },
 
         async createRole({commit}, name) {
             return roleManager.createRole(name)
                 .then(role => {
-                    commit('pushRole', role)
-                    return Promise.resolve(role)
+                    commit('pushRole', role);
+                    return role
                 })
-                .catch(error => Promise.reject(error));
         }
     }
 }

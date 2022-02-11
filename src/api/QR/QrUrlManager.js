@@ -4,7 +4,7 @@ import axiosInstance from "@/api/Axios";
 class QrUrlManager {
     async scanTest(scanUrl) {
         return await axiosInstance.get(scanUrl)
-            .then(res => Promise.resolve(res.data))
+            .then(res => res.data)
     }
 
     getScanUrl(token, id) {
