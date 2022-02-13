@@ -1,38 +1,43 @@
 <template>
-  <v-menu bottom min-width="200px" rounded offset-y>
+  <v-menu bottom min-width="260px" rounded offset-y>
     <template v-slot:activator="{ on }">
       <v-btn icon x-large v-on="on" :loading="!user">
         <v-avatar>
-          <v-icon> mdi-account-circle </v-icon>
+          <v-icon> mdi-account-circle</v-icon>
         </v-avatar>
       </v-btn>
     </template>
 
     <v-card>
-      <v-list-item-content class="justify-center">
-        <div class="mx-auto text-center">
-          <v-avatar>
-            <v-icon> mdi-account-circle </v-icon>
-          </v-avatar>
+      <v-card-title>
+        {{ user.login }}
+        <v-spacer/>
+        <v-avatar>
+          <v-icon>mdi-account-circle</v-icon>
+        </v-avatar>
+      </v-card-title>
 
-          <h3 class="my-2" v-if="user">
-            {{ `${user.people.family} ${user.people.name}` }}
-          </h3>
-          <p class="my-2 text-h6" v-if="user">Роль пользователя</p>
-          <v-divider class="my-3"></v-divider>
-          <div class="d-flex justify-center">
-            <theme-switch />
-          </div>
-          <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text @click="onLogout">Выйти</v-btn>
-        </div>
-      </v-list-item-content>
+      <v-card-subtitle v-if="role">
+        Роль: {{ role }}
+      </v-card-subtitle>
+
+      <v-card-text v-if="user">
+        {{ fullName }}
+        <v-divider/>
+        <br>
+        <theme-switch/>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer/>
+        <v-btn color="error" depressed rounded text @click="onLogout">Выйти</v-btn>
+      </v-card-actions>
     </v-card>
   </v-menu>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import ThemeSwitch from "@/components/inputs/themeSwitch";
 
 export default {
@@ -41,11 +46,16 @@ export default {
   computed: {
     ...mapGetters({
       user: "user/getCurrentUser",
+      role: "user/getCurrentRole",
     }),
+    fullName() {
+      const people = this.user?.employee?.people;
+      return people ? `${people.family} ${people.name} ${people.patronymic}` : null;
+    }
   },
   methods: {
     onLogout() {
-      this.$router.push({ name: "logout" });
+      this.$router.push({name: "logout"});
     },
   }
 };

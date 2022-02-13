@@ -27,7 +27,7 @@ export default {
   },
   beforeMount() {
     this.$store.dispatch('user/fetchCurrentUser').then(user => {
-      const roleName = user?.role;
+      const roleName = user?.employee?.role?.name;
 
       if (roleName) {
         this.loadHomeForRole(roleName)

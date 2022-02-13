@@ -54,7 +54,7 @@ export default {
 
     if (id !== undefined) {
       this.getEmployeeById(id)
-          .then(employee => this.employee = employee)
+          .then(emp => this.employee = emp)
           .catch(() => this.fetchError = true);
     }
   }

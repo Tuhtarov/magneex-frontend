@@ -7,7 +7,7 @@ export default {
     },
     getters: {
         getCurrentUser: state => state.currentUser,
-        getCurrentRole: state => state.currentUser.role,
+        getCurrentRole: state => state.currentUser.employee.role.name,
         userIsReady: state => state.currentUser !== null,
         getUsers: state => state.users,
     },
@@ -17,28 +17,23 @@ export default {
         pushToUsers: (state, user) => state.users.push(user)
     },
     actions: {
-        async fetchCurrentUser({dispatch}) {
-            return await dispatch('request', {
-                mutation: 'setCurrentUser', promise: manager.getCurrent()
+        async fetchCurrentUser({commit}) {
+            return await manager.getCurrent().then(user => {
+                commit('setCurrentUser', user)
+                return user
             })
         },
-        async fetchUsers({dispatch}) {
-            return await dispatch('request', {
-                mutation: 'setUsers', promise: manager.getAll()
+        async fetchUsers({commit}) {
+            return await manager.getAll().then(users => {
+                commit('setUsers', users)
+                return users
             })
         },
-        async createUser({dispatch}, user) {
-            return await dispatch('request', {
-                mutation: 'pushToUsers', promise: manager.create(user)
+        async createUser({commit}, user) {
+            return await manager.create(user).then(newUser => {
+                commit('pushToUsers', newUser)
+                return newUser
             })
-        },
-        async request({commit}, {mutation, promise}) {
-            return await promise
-                .then(data => {
-                    commit(mutation, data)
-                    return Promise.resolve(data)
-                })
-                .catch(err => Promise.reject(err));
         },
     },
     namespaced: true

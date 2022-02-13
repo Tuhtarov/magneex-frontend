@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+# ide plugins
+vetur.config.js
+jsconfig.json
 
 # local env files
 .env.local

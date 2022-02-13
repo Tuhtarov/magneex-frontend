@@ -1,13 +1,13 @@
 <template>
-  <v-card elevation="5" outlined>
+  <v-card elevation="4" outlined>
     <v-card-title>{{ fullName }}</v-card-title>
     <v-card-text class="d-flex flex-wrap">
       <div class="col-12 col-md-7 pt-0 ps-0">
-        <p>Дата рождения: {{ birthDay }}</p>
         <p>Телефон: {{ employee.people.phone }}</p>
         <p>Email: {{ employee.people.email }}</p>
+        <p>Должность: {{ employee.jobPosition ? employee.jobPosition.name : '-' }}</p>
         <p>Роль: {{ employee.role ? employee.role.name : '-' }}</p>
-        <p>Должность: {{ employee.job_position ? employee.job_position.name : '-' }}</p>
+        <p>Дата рождения: {{ birthDay }}</p>
       </div>
       <v-spacer></v-spacer>
       <div class="d-none d-md-block pb-2">

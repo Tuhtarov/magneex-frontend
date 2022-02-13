@@ -3,8 +3,6 @@ import employeeManager from "@/api/Entity/EmployeeManager.js";
 export default {
     state: {
         employees: [],
-        // здесь хранятся последний добавленный сотрудник
-        // нужно для отображение недавно созданных сотрудников в форме создания
         recentEmployee: null
     },
     getters: {
@@ -39,21 +37,19 @@ export default {
             commit('pushEmployee', employee);
         },
         async createEmployee({dispatch}, data) {
-            return await employeeManager.create(data)
-                .then(newEmployee => {
-                    dispatch('addEmployee', newEmployee)
-                    return newEmployee
-                })
+            return await employeeManager.create(data).then(newEmployee => {
+                dispatch('addEmployee', newEmployee)
+                return newEmployee
+            })
         },
         async getEmployeeById(store, id) {
             return await employeeManager.getById(id)
         },
         async deleteEmployeeById({commit}, id) {
-            return await employeeManager.removeById(id)
-                .then(() => {
-                    commit('removeEmployeeById', id);
-                    return id;
-                })
+            return await employeeManager.removeById(id).then(() => {
+                commit('removeEmployeeById', id);
+                return id;
+            })
         },
     },
     namespaced: true

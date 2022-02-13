@@ -6,8 +6,8 @@
 
     <!-- Пользователь -->
     <strong class="text-h6 mx-3">
-      <span v-if="user">{{ `${user.people.name} ${user.people.family}` }}</span>
-      <span v-show="!user">Загрузка</span>
+      <span v-if="user">{{ `${user.employee.people.name} ${user.employee.people.family}` }}</span>
+      <span v-else>Загрузка</span>
     </strong>
 
     <app-bar-menu/>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import appBarMenu from "./app-bar-menu";
+import appBarMenu from "@/components/structure/app-bar-menu";
 import {mapGetters} from "vuex";
 
 export default {

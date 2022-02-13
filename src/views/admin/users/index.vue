@@ -39,10 +39,8 @@ export default {
   computed: {
     ...mapGetters({users: 'user/getUsers'})
   },
-  async mounted() {
+  mounted() {
     this.$store.dispatch('user/fetchUsers')
-        .catch(error => console.dir(error))
-    // .then(r => console.dir(r));
   },
 
 }
