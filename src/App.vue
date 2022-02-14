@@ -1,7 +1,5 @@
 <template>
-  <v-app>
-    <component :is="layout" />
-  </v-app>
+  <component :is="layout"/>
 </template>
 <script>
 import {initTheme} from '@/features/ThemeManager'

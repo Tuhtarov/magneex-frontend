@@ -19,7 +19,7 @@ export default {
   methods: {
     async exit() {
       await logout();
-      this.$router.push({name: 'login'})
+      await this.$router.push({name: 'login'})
     }
   },
   created() {

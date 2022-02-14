@@ -1,34 +1,52 @@
 <template>
-  <v-app-bar app elevate-on-scroll>
-    <v-app-bar-nav-icon v-if="includeBurger" @click="$emit('clickNavIcon')"/>
-    <v-app-bar-title>Visits</v-app-bar-title>
-    <v-spacer></v-spacer>
+  <div>
+    <v-navigation-drawer app v-if="includeNavigation" v-model="navOpen" width="290">
+      <navigation-list v-if="userReady"/>
 
-    <!-- Пользователь -->
-    <strong class="text-h6 mx-3">
-      <span v-if="user">{{ `${user.employee.people.name} ${user.employee.people.family}` }}</span>
-      <span v-else>Загрузка</span>
-    </strong>
+      <template v-if="!userReady" v-slot:append>
+        <v-row class="justify-center pb-10">
+          <v-progress-circular indeterminate/>
+        </v-row>
+      </template>
+    </v-navigation-drawer>
 
-    <app-bar-menu/>
-  </v-app-bar>
+    <v-app-bar app elevate-on-scroll>
+      <v-app-bar-nav-icon v-if="includeNavigation" @click="navOpen = !navOpen"/>
+      <v-app-bar-title>Visits</v-app-bar-title>
+      <v-spacer/>
+
+      <!-- Пользователь -->
+      <strong class="text-h6 mx-3">
+        {{ familyAndName ? familyAndName : 'Загрузка' }}
+      </strong>
+
+      <app-bar-menu/>
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
 import appBarMenu from "@/components/structure/app-bar-menu";
+import navigationList from "@/components/navigation/navigation-list";
 import {mapGetters} from "vuex";
 
 export default {
   name: "appBar",
-  components: {appBarMenu},
+  components: {appBarMenu, navigationList},
   props: {
-    includeBurger: {
+    includeNavigation: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
+  data: () => ({
+    navOpen: false
+  }),
   computed: {
-    ...mapGetters({user: 'user/getCurrentUser'})
+    ...mapGetters({
+      familyAndName: 'user/getFamilyAndName',
+      userReady: 'user/userIsReady'
+    })
   },
 }
 </script>

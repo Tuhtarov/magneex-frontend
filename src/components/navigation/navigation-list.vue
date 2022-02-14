@@ -1,32 +1,34 @@
 <template>
   <v-list nav>
-    <template v-for="item in navItems">
+    <template v-for="route in navRoutes">
       <!--Одиночная ссылка-->
       <navigation-item
-          v-if="item.single"
-          :key="item.title"
-          :navItem="item">
+          v-if="!route.multiple"
+          :key="route.title"
+          :route-name="route.name"
+          :nav-title="route.title"
+          :nav-icon="route.icon">
       </navigation-item>
 
       <!--Раскрывающиеся ссылки-->
-      <v-list-group
-          v-else
-          :key="item.title"
-          :prepend-icon="item.icon">
+      <!--      <v-list-group-->
+      <!--          v-else-->
+      <!--          :key="route.title"-->
+      <!--          :prepend-icon="route.icon">-->
 
-        <template v-slot:activator>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </template>
+      <!--        <template v-slot:activator>-->
+      <!--          <v-list-item-title>{{ route.title }}</v-list-item-title>-->
+      <!--        </template>-->
 
-        <v-divider/>
+      <!--        <v-divider/>-->
 
-        <navigation-item
-            v-for="link in item.links"
-            :key="link.title"
-            :navItem="link">
-        </navigation-item>
-        <v-divider/>
-      </v-list-group>
+      <!--        <navigation-item-->
+      <!--            v-for="link in item.links"-->
+      <!--            :key="link.title"-->
+      <!--            :navItem="link">-->
+      <!--        </navigation-item>-->
+      <!--        <v-divider/>-->
+      <!--      </v-list-group>-->
     </template>
   </v-list>
 </template>
@@ -37,42 +39,30 @@ import NavigationItem from '@/components/navigation/navigation-item-single';
 export default {
   name: "navigationList",
   components: {NavigationItem},
+  computed: {
+    /** Маппим маршруты из vue router */
+    navRoutes() {
+      let navRoutes = [];
 
-  data: () => ({
-    navItems: [
-      {
-        single: true,
-        title: "Главная",
-        icon: "mdi-home",
-        routeName: 'main'
-      },
-      {
-        single: true,
-        title: "QR код",
-        icon: "mdi-close",
-        routeName: 'qr'
-      },
-      {
-        single: true,
-        title: "Сотрудники",
-        icon: "mdi-account-group",
-        routeName: 'employees'
-      },
-      {
-        single: true,
-        title: "Пользователи",
-        icon: "mdi-account-supervisor-circle",
-        routeName: 'users'
-      },
-      {
-        single: true,
-        title: "Должности",
-        icon: "mdi-crown",
-        routeName: 'job-positions'
-      },
-    ],
-  }),
-  methods: {}
+      // проходимся по всем роутам из vue router
+      this.$router.options.routes.forEach(route => {
+        const isNavLink = !!route?.meta?.navLink;
+
+        if (isNavLink) {
+          const {title, icon} = route?.meta?.navLink;
+
+          // добавляем в результат объект для формирования ссылки
+          navRoutes.push({
+            name: route.name,
+            title,
+            icon
+          });
+        }
+      });
+
+      return navRoutes;
+    }
+  }
 };
 </script>
 

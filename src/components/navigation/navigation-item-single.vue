@@ -1,10 +1,10 @@
 <template>
-  <v-list-item link :to="{name: navItem.routeName}">
+  <v-list-item link :to="{name: routeName}">
     <v-list-item-icon>
-      <v-icon>{{ navItem.icon }}</v-icon>
+      <v-icon>{{ navIcon }}</v-icon>
     </v-list-item-icon>
 
-    <v-list-item-title>{{ navItem.title }}</v-list-item-title>
+    <v-list-item-title>{{ navTitle }}</v-list-item-title>
   </v-list-item>
 </template>
 
@@ -12,8 +12,14 @@
 export default {
   name: 'NavigationItemSingle',
   props: {
-    navItem: {
-      type: Object
+    routeName: {
+      type: String
+    },
+    navTitle: {
+      type: String
+    },
+    navIcon: {
+      type: String
     }
   }
 };

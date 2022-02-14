@@ -8,31 +8,33 @@
       </v-btn>
     </template>
 
-    <v-card>
-      <v-card-title>
-        {{ user.login }}
-        <v-spacer/>
-        <v-avatar>
-          <v-icon>mdi-account-circle</v-icon>
-        </v-avatar>
-      </v-card-title>
+    <template v-if="userReady">
+      <v-card>
+        <v-card-title>
+          {{ user.login }}
+          <v-spacer/>
+          <v-avatar>
+            <v-icon>mdi-account-circle</v-icon>
+          </v-avatar>
+        </v-card-title>
 
-      <v-card-subtitle v-if="role">
-        Роль: {{ role }}
-      </v-card-subtitle>
+        <v-card-subtitle v-if="role">
+          Роль: {{ role }}
+        </v-card-subtitle>
 
-      <v-card-text v-if="user">
-        {{ fullName }}
-        <v-divider/>
-        <br>
-        <theme-switch/>
-      </v-card-text>
+        <v-card-text v-if="user">
+          {{ fullName }}
+          <v-divider/>
+          <br>
+          <theme-switch/>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-spacer/>
-        <v-btn color="error" depressed rounded text @click="onLogout">Выйти</v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="error" depressed rounded text @click="onLogout">Выйти</v-btn>
+        </v-card-actions>
+      </v-card>
+    </template>
   </v-menu>
 </template>
 
@@ -46,12 +48,10 @@ export default {
   computed: {
     ...mapGetters({
       user: "user/getCurrentUser",
+      userReady: "user/userIsReady",
       role: "user/getCurrentRole",
+      fullName: "user/getFullName"
     }),
-    fullName() {
-      const people = this.user?.employee?.people;
-      return people ? `${people.family} ${people.name} ${people.patronymic}` : null;
-    }
   },
   methods: {
     onLogout() {

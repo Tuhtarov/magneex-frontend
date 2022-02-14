@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <app-bar :includeBurger="false" />
+    <app-bar :includeNavigation="true"/>
+
     <v-main>
       <v-container fluid>
         <v-row>
@@ -13,9 +14,10 @@
 
 <script>
 import appBar from "@/components/structure/app-bar";
+
 export default {
   name: "employeeLayout",
-  components: {appBar}
+  components: {appBar},
 }
 </script>
 

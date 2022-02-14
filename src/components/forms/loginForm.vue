@@ -103,7 +103,7 @@ export default {
         }
 
         const onSuccessCb = () => {
-          this.$router.push({name: "Home"});
+          this.$router.push({name: "home"});
           this.$router.go();
         }
 

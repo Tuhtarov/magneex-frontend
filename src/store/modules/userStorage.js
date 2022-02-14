@@ -3,16 +3,30 @@ import manager from "@/api/Entity/UserManager.js";
 export default {
     state: {
         currentUser: null,
+        currentPeople: null,
+        currentEmployee: null,
         users: [],
     },
     getters: {
         getCurrentUser: state => state.currentUser,
         getCurrentRole: state => state.currentUser.employee.role.name,
+        getFullName: ({currentPeople}) => {
+            return currentPeople ?
+                `${currentPeople.family} ${currentPeople.name} ${currentPeople.patronymic}` : null;
+        },
+        getFamilyAndName: ({currentPeople}) => {
+            return currentPeople ?
+                `${currentPeople.family} ${currentPeople.name}` : null;
+        },
         userIsReady: state => state.currentUser !== null,
         getUsers: state => state.users,
     },
     mutations: {
-        setCurrentUser: (state, user) => state.currentUser = user,
+        setCurrentUser: (state, user) => {
+            state.currentUser = user
+            state.currentEmployee = user.employee
+            state.currentPeople = user.employee?.people
+        },
         setUsers: (state, users) => state.users = users,
         pushToUsers: (state, user) => state.users.push(user)
     },
