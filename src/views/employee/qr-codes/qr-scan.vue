@@ -9,7 +9,7 @@
 
         <text-error v-if="errorMessage" :message="errorMessage"/>
 
-        <visit-after-scan v-if="todayVisit" :visit-time="todayVisit.currentTime"/>
+        <visit-after-scan v-if="todayVisit && !errorMessage" :visit-time="todayVisit.currentTime"/>
       </v-card-text>
 
       <v-card-actions>
@@ -64,12 +64,10 @@ export default {
         .scan(this.token)
         .then((visit) => {
           this.setTodayVisit(visit);
-          console.dir(visit)
           this.titleContent = scanState.scanSuccess
           this.subTitleContent = 'Не забывайте сканировать QR :)'
         })
         .catch((e) => {
-          console.dir(e)
           this.titleContent = scanState.scanError
           this.errorMessage = getErrorMessage(e?.response?.status)
         });

@@ -1,10 +1,11 @@
 /**
  * @param {string} name
+ * @param {string|null} role
  * @returns {{layout: string}}
  */
-export const setLayout = name => ({
+export const setLayout = (name, role = null) => ({
     layout: `${name}Layout`,
-    role: name
+    role: role ?? name
 });
 
 /**

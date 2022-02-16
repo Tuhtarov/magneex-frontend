@@ -6,9 +6,9 @@ export default [
     {
         path: '/qr',
         name: 'qr',
-        component: () => import('@/views/admin/qr-codes/index.vue'),
+        component: () => import('@/views/admin/qr-codes'),
         meta: {
-            ...setLayout('qr'),
+            ...setLayout('qr', 'admin'),
             ...setNavLink({
                 title: "QR код",
                 icon: "mdi-close"
@@ -20,7 +20,7 @@ export default [
     {
         path: '/users',
         name: 'users',
-        component: () => import('@/views/admin/users/index.vue'),
+        component: () => import('@/views/admin/users'),
         meta: {
             ...setLayout('admin'),
             ...setNavLink({
@@ -34,7 +34,7 @@ export default [
     {
         path: '/employees',
         name: 'employees',
-        component: () => import('@/views/admin/employees/index.vue'),
+        component: () => import('@/views/admin/employees'),
         meta: {
             ...setLayout('admin'),
             ...setNavLink({
@@ -50,12 +50,11 @@ export default [
         component: () => import('@/views/admin/employees/show.vue'),
         ...setLayout('admin')
     },
-
     // должности
     {
         path: '/job-positions',
         name: 'job-positions',
-        component: () => import('@/views/admin/job-positions/index.vue'),
+        component: () => import('@/views/admin/job-positions'),
         meta: {
             ...setLayout('admin'),
             ...setNavLink({

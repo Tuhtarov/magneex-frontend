@@ -12,7 +12,7 @@ export default [
     {
         path: '/my-visits',
         name: 'my-visits',
-        component: () => import('@/views/employee/qr-codes/qr-scan'),
+        component: () => import('@/views/employee/history/'),
         meta: {
             ...setLayout('employee'),
             ...setNavLink({
