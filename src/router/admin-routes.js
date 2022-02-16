@@ -1,19 +1,6 @@
 import {setLayout, setNavLink} from "@/router/metaUtils";
-import Home from "@/views/Home";
 
 export default [
-    {
-        path: '/',
-        name: 'home',
-        component: Home,
-        meta: {
-            ...setLayout('admin'),
-            ...setNavLink({
-                title: "Главная",
-                icon: "mdi-home"
-            })
-        }
-    },
 
     // qr код
     {

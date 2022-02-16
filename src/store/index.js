@@ -5,7 +5,7 @@ import user from "./modules/userStorage";
 import employee from "./modules/employeeStorage";
 import jobPosition from  "./modules/jobPositionStorage"
 import role from "./modules/roleStorage";
-import qr from "./modules/qrStorage";
+import visit from "./modules/visitStorage";
 
 Vue.use(Vuex)
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
   },
   // здесь подключаются модули хралища (хранилища других компонентов)
   modules: {
-    user, employee, jobPosition, role, qr
+    user, employee, jobPosition, role, visit
   },
   /* запрет на прямое изменение стейта
   в продакшен режиме сниманием запрет, т.к этот режим тормозит систему */

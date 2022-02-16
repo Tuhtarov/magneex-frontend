@@ -1,26 +1,25 @@
-import {setLayout, setNavLink} from "@/router/metaUtils";
-import Home from "@/views/Home";
+import { setLayout, setNavLink } from "@/router/metaUtils";
 
 export default [
     {
-        path: '/',
-        name: 'home',
-        component: Home,
+        path: '/qr-scan/:token',
+        name: 'qr-scan',
+        component: () => import('@/views/employee/qr-codes/qr-scan'),
+        meta: {
+            ...setLayout('employee')
+        }
+    },
+    {
+        path: '/my-visits',
+        name: 'my-visits',
+        component: () => import('@/views/employee/qr-codes/qr-scan'),
         meta: {
             ...setLayout('employee'),
             ...setNavLink({
-                title: "Главная",
-                icon: "mdi-home"
+                title: "Моя история",
+                icon: "mdi-close"
             })
         }
-    },
-
-    // qr код
-    {
-        path: '/qr-scan/:token',
-        name: 'qr-scan',
-        component: () => import('@/views/employee/qr-codes'),
-        ...setLayout('employee'),
     },
 ]
 

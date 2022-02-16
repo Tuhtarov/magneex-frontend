@@ -3,7 +3,8 @@
  * @returns {{layout: string}}
  */
 export const setLayout = name => ({
-    layout: `${name}Layout`
+    layout: `${name}Layout`,
+    role: name
 });
 
 /**

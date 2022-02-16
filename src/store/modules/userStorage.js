@@ -10,6 +10,7 @@ export default {
     getters: {
         getCurrentUser: state => state.currentUser,
         getCurrentRole: state => state.currentUser.employee.role.name,
+        getCurrentEmployee: state => state.currentUser.employee,
         getFullName: ({currentPeople}) => {
             return currentPeople ?
                 `${currentPeople.family} ${currentPeople.name} ${currentPeople.patronymic}` : null;
@@ -24,8 +25,8 @@ export default {
     mutations: {
         setCurrentUser: (state, user) => {
             state.currentUser = user
-            state.currentEmployee = user.employee
-            state.currentPeople = user.employee?.people
+            state.currentPeople = user?.employee?.people
+            state.currentEmployee = user?.employee;
         },
         setUsers: (state, users) => state.users = users,
         pushToUsers: (state, user) => state.users.push(user)

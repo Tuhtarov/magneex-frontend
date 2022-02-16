@@ -1,19 +1,15 @@
-import {BASE_API_URL} from "@/api/Axios";
+// import { BASE_API_URL } from "@/api/Axios";
 import axiosInstance from "@/api/Axios";
 
 class QrUrlManager {
-    async scanTest(scanUrl) {
-        return await axiosInstance.get(scanUrl)
-            .then(res => res.data)
+    async scan(token) {
+        return await axiosInstance.get(`/qr/scan/${token}`)
+            .then(res => res.data.visit)
     }
 
-    getScanUrl(token, id) {
-        if (!token) {
-            console.error('token is undefined (QrScanner)');
-            return;
-        }
-
-        return `${BASE_API_URL}/qr/scan/${token}${id ? `/${id}` : ''}`
+    getScanUrl(token) {
+        // return `${BASE_API_URL}/qr-scan/${token}${id ? `/${id}` : ''}`
+        return `http:/localhost:8080/qr-scan/${token}`
     }
 }
 

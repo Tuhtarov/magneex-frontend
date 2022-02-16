@@ -6,6 +6,8 @@
       <div v-if="qrUrl" class="qr--container">
         <vue-qr :text="qrUrl" :size="qrSize"/>
       </div>
+
+      {{qrUrl}}
     </v-card-text>
 
     <v-card-text v-if="errMsg">
@@ -15,8 +17,6 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from "vuex";
-
 import VueQr from "vue-qr";
 import TextError from "@/components/outputs/text-error";
 import qrUrlManager from "@/api/QR/QrUrlManager";
@@ -28,22 +28,16 @@ export default {
   data: () => ({
     loading: true,
     qrSize: 300,
+    qrUrl: null,
     errMsg: null,
   }),
-  computed: {
-    ...mapGetters({qrUrl: "qr/getQR"}),
-  },
   methods: {
-    ...mapMutations({setQrUrl: "qr/setQR"}),
     closeSession() {
       qrSubscriber.closeSession();
     },
     connect() {
       qrSubscriber.startSession(
-          (qr) => {
-            const scanUrl = qrUrlManager.getScanUrl(qr.token);
-            this.setQrUrl(scanUrl)
-          },
+          (qr) => this.qrUrl = qrUrlManager.getScanUrl(qr.token), 
           (err) => this.errMsg = err
       );
     },

@@ -1,19 +1,24 @@
-import {setLayout} from "@/router/metaUtils";
+import {setLayout, setNavLink} from "@/router/metaUtils";
 import employeeRoutes from "@/router/employee-routes";
 import adminRoutes from "@/router/admin-routes";
-
-let userRoutes;
-
-let currentRole = 'admin';
-
-if (currentRole === 'employee') {
-    userRoutes = employeeRoutes;
-} else {
-    userRoutes = adminRoutes;
-}
+import Home from "@/views/Home";
 
 export default [
-    ...userRoutes,
+    {
+        path: '/',
+        name: 'home',
+        component: Home,
+        meta: {
+            ...setLayout('common'),
+            ...setNavLink({
+                title: "Главная",
+                icon: "mdi-home"
+            })
+        }
+    },
+    
+    ...employeeRoutes,
+    ...adminRoutes,
 
     // авторизация
     {
