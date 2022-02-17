@@ -7,7 +7,15 @@
         <vue-qr :text="qrUrl" :size="qrSize"/>
       </div>
 
-      {{qrUrl}}
+      <code style="color: #ff0038">
+        <pre>
+          <span class="white--text">
+            // Ссылка для регистрации посещения:
+          </span>
+
+      {{ qrUrl }}
+        </pre>
+      </code>
     </v-card-text>
 
     <v-card-text v-if="errMsg">
@@ -37,7 +45,7 @@ export default {
     },
     connect() {
       qrSubscriber.startSession(
-          (qr) => this.qrUrl = qrUrlManager.getScanUrl(qr.token), 
+          (qr) => this.qrUrl = qrUrlManager.getScanUrl(qr.token),
           (err) => this.errMsg = err
       );
     },

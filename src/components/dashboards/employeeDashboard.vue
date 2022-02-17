@@ -29,9 +29,6 @@ import { mapGetters } from "vuex";
 export default {
   components: { peopleInfoCard, peopleTodayVisit },
   name: "EmployeeDashboard",
-  data: () => ({
-
-  }),
   computed: {
     ...mapGetters({
       currentEmployee: "user/getCurrentEmployee",

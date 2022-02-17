@@ -2,14 +2,14 @@
   <v-card elevation="4">
     <v-card-title>Сегодняшняя история</v-card-title>
 
-    <v-card-text v-if="todayVisit" style="max-width: 882px;">
-      <time-line-short :visit="todayVisit"/>
+    <v-card-text v-if="todayVisit" style="max-width: 882px">
+      <time-line-short :visit="todayVisit" />
     </v-card-text>
 
     <v-card-text>
-      <v-progress-circular v-if="visitLoading" indeterminate/>
+      <v-progress-circular v-if="visitLoading" indeterminate />
       <template v-else>
-        <text-error v-if="hasError" :message="'Есть ошибка при загрузке.'"/>
+        <text-error v-if="hasError" :message="'Есть ошибка при загрузке.'" />
         <p v-if="!hasError && !todayVisit">
           > Вероятно, вы сегодня ещё не посещали предприятие.
         </p>
@@ -17,7 +17,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="primary" @click="fetchFullHistory">Вся история</v-btn>
+      <v-btn color="primary" @click="goHistory">Вся история</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,11 +26,11 @@
 import timeLineShort from "@/components/cards/timeLineShort";
 import textError from "@/components/outputs/text-error";
 
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "people-today-visit",
-  components: {timeLineShort, textError},
+  components: { timeLineShort, textError },
   data: () => ({
     visitLoading: true,
     hasError: null,
@@ -41,18 +41,15 @@ export default {
     }),
   },
   methods: {
-    fetchFullHistory() {
-      console.log("Типо получил всю историю TODO");
+    goHistory() {
+      this.$router.push({ name: "my-visits" });
     },
   },
   beforeMount() {
     this.$store
-        .dispatch("visit/fetchTodayVisit")
-        .catch((e) => {
-          console.dir(e);
-          this.hasError = true;
-        })
-        .finally(() => (this.visitLoading = false));
+      .dispatch("visit/fetchTodayVisit")
+      .catch(() => (this.hasError = true))
+      .finally(() => (this.visitLoading = false));
   },
 };
 </script>
