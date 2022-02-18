@@ -48,7 +48,9 @@ export default [
         name: 'employees-show',
         props: true,
         component: () => import('@/views/admin/employees/show.vue'),
-        ...setLayout('admin')
+        meta: {
+            ...setLayout('admin')
+        }
     },
     // должности
     {

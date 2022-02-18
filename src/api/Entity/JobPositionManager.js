@@ -6,8 +6,8 @@ class JobPositionManager {
             .then(res => res.data.jobPositions)
     }
 
-    async create(name) {
-        return await axios.post('/job-positions/create', {name})
+    async create(entity) {
+        return await axios.post('/job-positions/create', entity)
             .then(res => res.data.jobPosition)
     }
 }

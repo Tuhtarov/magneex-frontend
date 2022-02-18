@@ -1,7 +1,7 @@
 import visitManager from "@/api/Entity/VisitManager"
 
 /**
- * @param {array} visits 
+ * @param {array} visits
  * @returns {array}
  */
 const prepareVisits = visits => {
@@ -12,7 +12,7 @@ const prepareVisits = visits => {
         if (dt === null) return null;
         const date = new Date(dt).toLocaleDateString("ru");
         const isCurrentDay = date === now.toLocaleDateString("ru");
-        
+
         return isCurrentDay ? "сегодня" : date;
     }
 
@@ -30,34 +30,58 @@ const prepareVisits = visits => {
 
 export default {
     state: {
-        todayVisit: null,
-        visitsCurrentEmployee: []
+        todayVisitCurrentEmployee: null,
+        visitsCurrentEmployee: [],
+        allVisits: []
     },
     getters: {
-        getTodayVisit: state => state.todayVisit,
-        getVisitsCurrentEmployee: state => state.visitsCurrentEmployee,
+        getTodayCurrentEmployee: state => state.todayVisitCurrentEmployee,
+        getAllCurrentEmployee: state => state.visitsCurrentEmployee,
+        getAllVisits: state => state.allVisits,
     },
     mutations: {
-        setTodayVisit: (state, visit) => state.todayVisit = visit,
-        setVisitsCurrentEmployee: (state, visits) => {
-            state.visitsCurrentEmployee = visits
-        },
+        setTodayCurrentEmployee: (state, visit) => state.todayVisitCurrentEmployee = visit,
+        setAllCurrentEmployee: (state, visits) => state.visitsCurrentEmployee = visits,
+        setAllVisits: (state, visits) => state.allVisits = visits,
     },
     actions: {
-        async fetchTodayVisit({ commit }) {
-            return await visitManager.getTodayVisit().then(visit => {
-                commit('setTodayVisit', visit);
+        // сегодняшнее посещение текущего сотрудника
+        async fetchTodayByCurrentEmployee({commit}) {
+            return await visitManager.getTodayByCurrentEmployee().then(visit => {
+                commit('setTodayCurrentEmployee', visit);
                 return visit;
             });
         },
-        async fetchVisitsCurrentEmployee({ commit, getters }) {
-            return await visitManager.getAllCurrentEmployee().then(visits => {
-                commit('setVisitsCurrentEmployee', prepareVisits(visits))
-                return getters.getVisitsCurrentEmployee;
+
+        // все посещения текущего сотрудника
+        async fetchAllByCurrentEmployee({commit, getters}) {
+            return await visitManager.getAllByCurrentEmployee().then(visits => {
+                commit('setAllCurrentEmployee', prepareVisits(visits))
+                return getters.getAllCurrentEmployee;
             })
         },
-        setTodayVisit({ commit }, visit) {
-            commit('setTodayVisit', visit);
+
+        // сегодняшняя история конкретного сотрудника
+        async fetchTodayByEmployeeId(store, id) {
+            return await visitManager.getTodayByEmployeeId(id);
+        },
+
+        // вся история конкретного сотрудника
+        async fetchAllByEmployeeId(store, id) {
+            return await visitManager.getAllByEmployeeId(id)
+                .then(visits => prepareVisits(visits))
+        },
+
+        // вся история
+        async fetchAllHistory({commit, getters}) {
+            return await visitManager.getAllHistory().then(visits => {
+                commit('setAllVisits', prepareVisits(visits))
+                return getters.getAllVisits;
+            })
+        },
+
+        setTodayVisit({commit}, visit) {
+            commit('setTodayCurrentEmployee', visit);
         }
     },
     namespaced: true,

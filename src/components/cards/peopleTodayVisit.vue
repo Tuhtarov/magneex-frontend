@@ -37,7 +37,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      todayVisit: "visit/getTodayVisit",
+      todayVisit: "visit/getTodayCurrentEmployee",
     }),
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
   },
   beforeMount() {
     this.$store
-      .dispatch("visit/fetchTodayVisit")
+      .dispatch("visit/fetchTodayByCurrentEmployee")
       .catch(() => (this.hasError = true))
       .finally(() => (this.visitLoading = false));
   },

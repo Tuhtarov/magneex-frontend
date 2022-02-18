@@ -1,34 +1,31 @@
 <template>
   <v-col>
-    <v-card v-if="!fetchError">
+    <v-card>
       <v-card-title>Сотрудник</v-card-title>
       <v-card-subtitle>Информация о сотруднике</v-card-subtitle>
 
       <!--Данные сотрудника-->
       <v-card-text style="max-width: 882px;">
         <people-info-card v-if="employee" :employee="employee"/>
-        <v-progress-circular v-else indeterminate/>
+        <simple-text-error v-else-if="empErr" :red-color="true" :message="empErr"/>
       </v-card-text>
 
       <v-divider/>
 
       <!--Недавняя история посещений-->
-      <v-card-title>История</v-card-title>
-      <v-card-subtitle>Недавняя история посещений</v-card-subtitle>
-      <v-card-text style="max-width: 882px;">
-        <time-line-short/>
-      </v-card-text>
+      <template v-if="employee">
+        <v-card-title>История</v-card-title>
+        <v-card-subtitle>Недавняя история посещений</v-card-subtitle>
 
-      <v-card-actions>
-        <v-btn text link color="primary">Вся история</v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-card-text style="max-width: 882px;">
+          <time-line-short v-if="todayVisit" :visit="todayVisit"/>
+          <simple-text-error v-else-if="visErr" :red-color="false" :message="visErr"/>
+        </v-card-text>
 
-    <!--Ошибка, если сотрудник не был получен-->
-    <v-card v-else>
-      <v-card-text>
-        <text-error message="При получении данных от сервера возникла ошибка."/>
-      </v-card-text>
+        <v-card-actions>
+          <v-btn text link color="primary">Вся история</v-btn>
+        </v-card-actions>
+      </template>
     </v-card>
   </v-col>
 </template>
@@ -37,25 +34,35 @@
 import {mapActions} from "vuex";
 import TimeLineShort from "@/components/cards/timeLineShort";
 import PeopleInfoCard from "@/components/cards/peopleInfoCard";
-import TextError from "@/components/outputs/text-error";
+import visitError from "@/api/Error/VisitError";
+import employeeError from "@/api/Error/EmployeeError";
+import SimpleTextError from "@/components/outputs/simple-text-error";
 
 export default {
   name: "showEmployeePage",
-  components: {TextError, PeopleInfoCard, TimeLineShort},
+  components: {SimpleTextError, PeopleInfoCard, TimeLineShort},
   data: () => ({
     employee: null,
-    fetchError: false
+    todayVisit: null,
+    empErr: null,
+    visErr: null
   }),
   methods: {
-    ...mapActions({getEmployeeById: 'employee/getEmployeeById'})
+    ...mapActions({
+      getEmployeeById: 'employee/getEmployeeById',
+      getTodayVisitByEmployeeId: 'visit/fetchTodayByEmployeeId'
+    })
   },
-  mounted() {
+  beforeMount() {
     const id = this.$route.params.id;
 
     if (id !== undefined) {
-      this.getEmployeeById(id)
-          .then(emp => this.employee = emp)
-          .catch(() => this.fetchError = true);
+      this.getEmployeeById(id).then(emp => this.employee = emp)
+          .catch((e) => this.empErr = employeeError.getMessage(e?.response?.status));
+
+      this.getTodayVisitByEmployeeId(id)
+          .then(visit => this.todayVisit = visit)
+          .catch(e => this.visErr = visitError.getMessage(e?.response?.status));
     }
   }
 }

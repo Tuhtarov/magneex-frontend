@@ -1,7 +1,7 @@
 <template>
   <error-card
       title="Ошибка 404"
-      text="Такого адреса не существует.">
+      :text="message">
   </error-card>
 </template>
 
@@ -10,9 +10,12 @@ import errorCard from "@/components/cards/errorCard";
 
 export default {
   name: "E404",
+  data: () => ({
+    message: 'Такого адреса не существует.'
+  }),
   components: {
     errorCard
-  },
+  }
 }
 </script>
 

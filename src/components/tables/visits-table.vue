@@ -5,7 +5,7 @@
       class="mb-2"
       :disabled="loading"
       append-icon="mdi-magnify"
-      label="Search"
+      label="Поиск"
       style="max-width: 200px"
       single-line
       hide-details
@@ -18,7 +18,7 @@
         :loading="loading"
         :sort-desc="true"
         :sort-by="'workDate'"
-        :no-data-text="'Данные отстутствуют'"
+        :no-data-text="'Данные отсутствуют'"
         :search="search"
       >
         <template v-slot:item.workDate="{ value }">
@@ -53,11 +53,11 @@ export default {
     ],
   }),
   computed: {
-    ...mapGetters({ visitsCurrentEmployee: "visit/getVisitsCurrentEmployee" }),
+    ...mapGetters({ visitsCurrentEmployee: "visit/getAllCurrentEmployee" }),
   },
   methods: {
     ...mapActions({
-      fetchVisitsCurrentEmployee: "visit/fetchVisitsCurrentEmployee",
+      fetchVisitsCurrentEmployee: "visit/fetchAllByCurrentEmployee",
     }),
 
     getColor: (val) => ({
@@ -66,7 +66,8 @@ export default {
     }),
   },
   beforeMount() {
-    this.fetchVisitsCurrentEmployee().finally(() => (this.loading = false));
+    this.fetchVisitsCurrentEmployee()
+        .finally(() => (this.loading = false));
   },
 };
 </script>

@@ -5,7 +5,7 @@
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Поиск"
             style="max-width: 500px;"
             single-line
             hide-details
@@ -63,7 +63,7 @@ export default {
       {text: 'Почта', value: 'people.email'},
       {text: 'Телефон', value: 'people.phone'},
       {text: 'Роль', value: 'role.name'},
-      {text: 'Должность', value: 'job_position.name'},
+      {text: 'Должность', value: 'jobPosition.name'},
       {text: 'Действия', value: 'actions'},
     ],
     confirmDialog: false,

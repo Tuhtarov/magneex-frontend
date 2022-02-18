@@ -4,7 +4,7 @@
 
     <!--Кнопка открытия модалки-->
     <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on">Выбрать</v-btn>
+      <v-btn v-bind="attrs" v-on="on">Выбрать</v-btn>
     </template>
 
     <!--Сама модалка-->

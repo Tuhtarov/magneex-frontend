@@ -8,7 +8,7 @@
       <p><span>Телефон:</span> {{ employee.people.phone }}</p>
       <p><span>Email:</span> {{ employee.people.email }}</p>
       <v-divider dark /><br>
-      <p><span>Должность:</span> {{ employee.job_position ? employee.job_position.name : "-" }}</p>
+      <p><span>Должность:</span> {{ employee.jobPosition ? employee.jobPosition.name : "-" }}</p>
       <p><span>Роль:</span> {{ employee.role ? employee.role.name :  "-" }}</p>
     </v-card-text>
   </v-card>
@@ -18,9 +18,7 @@
 export default {
   name: "peopleShortInfoCard",
   props: {
-    employee: {
-      type: Object
-    }
+    employee: Object
   },
   computed: {
     birthDay() {

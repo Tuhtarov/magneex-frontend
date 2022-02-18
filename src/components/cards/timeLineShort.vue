@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getTime(dateTimeString) {
-      return (new Date(dateTimeString)).toLocaleTimeString()
+      return (new Date(dateTimeString)).toLocaleTimeString('ru')
     },
   }
 };

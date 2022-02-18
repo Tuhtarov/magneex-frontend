@@ -9,21 +9,21 @@
             label="Поиск"
             single-line
             hide-details
-        ></v-text-field>
+        />
       </v-card-subtitle>
 
       <v-card-text>
         <v-data-table
-            :search="search"
             :headers="headers"
             :items="items"
-            :items-per-page="3"
+            :search="search"
+            :items-per-page="5"
             :single-select="true"
-            item-key="id"
             :show-select="true"
+            item-key="id"
             @item-selected="selectedRow = $event"
-            :no-data-text="'Отсутствуют элементы для выбора'">
-        </v-data-table>
+            no-data-text="Отсутствуют элементы для выбора"
+        />
         <v-divider/>
         <slot name="selectedRow" v-bind="selectedRow">
           <v-card min-height="140" max-height="200">
@@ -45,18 +45,10 @@
 export default {
   name: "ChooseTableDialog",
   props: {
-    headers: {
-      type: Array
-    },
-    items: {
-      type: Array
-    },
-    visibility: {
-      type: Boolean
-    },
-    title: {
-      type: String
-    }
+    headers: Array,
+    items: Array,
+    visibility: Boolean,
+    title: String
   },
   data: () => ({
     search: '',

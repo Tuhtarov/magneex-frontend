@@ -21,7 +21,7 @@
 
 <script>
 import qrUrlManager from "@/api/QR/QrUrlManager";
-import getErrorMessage from "@/api/QR/QrErrorMessages";
+import qrErr from "@/api/Error/QrError";
 import {mapActions, mapGetters} from "vuex";
 import TextError from "@/components/outputs/text-error";
 import VisitAfterScan from "@/components/cards/visitAfterScan";
@@ -46,7 +46,7 @@ export default {
       return this.$route.params.token ?? null;
     },
     ...mapGetters({
-      todayVisit: 'visit/getTodayVisit'
+      todayVisit: 'visit/getTodayCurrentEmployee'
     })
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
         })
         .catch((e) => {
           this.titleContent = scanState.scanError
-          this.errorMessage = getErrorMessage(e?.response?.status)
+          this.errorMessage = qrErr.getMessage(e?.response?.status)
         });
 
     this.qrScanning = false

@@ -30,7 +30,7 @@ class EmployeeManager {
      * @return {Promise<unknown>}
      */
     async getById(id) {
-        return await axiosInstance.get(`/employees/get/${id}`)
+        return await axiosInstance.get(`/employees/${id}`)
             .then(res => res.data.employee)
     }
 

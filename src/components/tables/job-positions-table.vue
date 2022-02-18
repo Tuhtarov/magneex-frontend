@@ -7,11 +7,10 @@
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Поиск"
             single-line
             style="max-width: 500px"
-            hide-details
-        ></v-text-field>
+            hide-details />
       </v-card-subtitle>
 
       <v-card-text>
@@ -20,8 +19,7 @@
             :headers="headers"
             :items="positions"
             :no-data-text="'Данные отстутствуют'"
-            :search="search"
-        ></v-data-table>
+            :search="search" />
       </v-card-text>
     </template>
     <template v-else>
@@ -47,8 +45,10 @@ export default {
   data: () => ({
     search: '',
     headers: [
-      {text: '#', align: 'start', width: '40px', value: 'id'},
-      {text: 'Наименование', align: 'start', value: 'name',},
+      {text: '#', align: 'start', width: '40', value: 'id'},
+      {text: 'Наименование', align: 'start', width: '500', value: 'name'},
+      {text: 'Начало', align: 'start', width: '100', value: 'beginWorkTime'},
+      {text: 'Конец', align: 'start', value: 'endWorkTime'},
     ],
   }),
   computed: {
