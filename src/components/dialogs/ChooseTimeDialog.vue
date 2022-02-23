@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="value" persistent max-width="330">
+  <v-dialog :value="value" max-width="330" @input="close">
     <v-card>
       <v-card-title>Выбор времени</v-card-title>
 

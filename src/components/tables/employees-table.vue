@@ -56,9 +56,9 @@ export default {
     search: '',
     headers: [
       {text: '#', value: 'id', width: '50px'},
-      {text: 'Имя', align: 'start', value: 'people.name'},
       {text: 'Фамилия', value: 'people.family'},
-      // {text: 'Отчество', value: 'people.patronymic'},
+      {text: 'Имя', align: 'start', value: 'people.name'},
+      {text: 'Отчество', value: 'people.patronymic'},
       // {text: 'Дата рождения', value: 'people.birthday'},
       {text: 'Почта', value: 'people.email'},
       {text: 'Телефон', value: 'people.phone'},
@@ -79,7 +79,7 @@ export default {
       this.$router.push({name: 'employees-show', params: {id: id}});
     },
     edit(id) {
-      console.dir(id)
+      this.$router.push({name: 'employees-edit', params: {id: id}});
     },
     // eslint-disable-next-line no-unused-vars
     async remove(id) {

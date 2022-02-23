@@ -6,7 +6,7 @@
       :search="search">
     <template v-slot:item.employee.people.family="{item}">
       <router-link :to="{name: 'employees-show', params: {id: item.employee.id}}" class="text-decoration-none">
-        {{ item.employee.people.family }}
+        {{ getFullName(item.employee.people) }}
       </router-link>
     </template>
   </v-data-table>
@@ -16,9 +16,7 @@
 export default {
   name: "users-table",
   props: {
-    users: {
-      type: Array
-    }
+    users: Array
   },
   data: () => ({
     search: '',
@@ -28,6 +26,9 @@ export default {
       {text: 'Логин', value: 'login'},
       {text: 'Роль', value: 'employee.role.name'},
     ]
-  })
+  }),
+  methods: {
+    getFullName: ({family, name}) => `${family} ${name}`,
+  }
 }
 </script>

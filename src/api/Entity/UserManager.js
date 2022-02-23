@@ -14,8 +14,8 @@ class UserManager {
             .then(res => res.data.users)
     }
 
-    async create(user) {
-        return await axiosInstance.post('/users/create', {user: user})
+    async create(data) {
+        return await axiosInstance.post('/users/create', data)
             .then(res => res.data.user)
     }
 }

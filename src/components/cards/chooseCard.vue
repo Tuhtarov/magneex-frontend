@@ -14,9 +14,10 @@
 
       <v-card-text>
         <template v-if="!itemsLoading">
-          <span v-if="selectedId">Выбрано: <b>{{ selectedName }}</b></span>
+          <span v-if="value">Выбрано: <b>{{ selectedName }}</b></span>
           <span v-else>Не выбрано</span>
         </template>
+
         <template v-else>
           <v-progress-circular color="primary" indeterminate/>
         </template>
@@ -24,10 +25,7 @@
 
       <v-card-actions>
         <v-spacer/>
-        <choose-item-dialog
-            :items="items"
-            :value="selectedId"
-            @select="onChoose">
+        <choose-item-dialog :items="items" :value="value" @change="onChange">
           Выберите {{ title }}
         </choose-item-dialog>
       </v-card-actions>
@@ -43,14 +41,10 @@ export default {
   components: {ChooseItemDialog},
 
   props: {
-    title: {type: String},
-    items: {type: []},
+    title: String,
+    items: Array,
+    value: Number
   },
-
-  data: () => ({
-    selectedId: null,
-    selectedName: null
-  }),
 
   computed: {
     itemsLoading() {
@@ -58,15 +52,16 @@ export default {
     },
     isDark() {
       return this.$vuetify.theme.dark;
-    }
+    },
+    selectedName() {
+      return this.items.reduce((p, c) => +c.id === +this.value ? p + c.name : p, '')
+    },
   },
 
   methods: {
-    onChoose({id, name}) {
-      this.selectedId = id;
-      this.selectedName = name;
-
+    onChange(id) {
       this.$emit('change', id)
+      this.$emit('input', id)
     },
   }
 }

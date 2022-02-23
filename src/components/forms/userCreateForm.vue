@@ -62,19 +62,16 @@ import TextError from "@/components/outputs/text-error";
 import {validationMixin} from "vuelidate";
 import {mapActions, mapGetters} from "vuex";
 import {maxLength, minLength, required} from "vuelidate/lib/validators";
-import ResponseCode from "@/api/ResponseCode";
-import ErrorMessages from "@/api/ErrorMessages";
+
 let field = {required, minLength: minLength(2), maxLength: maxLength(200)}
+const validations = {login: field, password: field};
 
 export default {
-  mixins: [validationMixin],
-  validations: {
-    login: field,
-    password: field,
-  },
-
   name: "userCreateForm",
+  mixins: [validationMixin],
+  validations: validations,
   components: {TextError, ChosenEmployeeCard, ChooseTableDialog},
+
   data: () => ({
     login: '',
     password: '',
@@ -110,32 +107,27 @@ export default {
       this.$v.$touch();
 
       if (this.formReady) {
-        const user = {login: this.login, password: this.password, employeeId: this.employee.id};
-        await this.createUser(user)
-            .then(r => console.dir(r))
-            .catch(e => {
-              this.password = ''
-              this.printError(e)
-            });
+        await this.createUser(this.getUserData())
+            .finally(this.clear);
       }
     },
 
     confirm(selectedItem) {
       this.employee = selectedItem;
     },
+
     toggleDialog() {
       this.showChooseDialog = !this.showChooseDialog
     },
 
-    // валидация
-    validateInput(input) {
+    validateInput({$dirty, $params, required, minLength}) {
       const errors = [];
-      const {$dirty, required, minLength} = input;
+
       if (!$dirty) return errors;
 
       !required && errors.push("Поле обязательно.");
 
-      const minText = input?.$params?.minLength?.min;
+      const minText = $params?.minLength?.min;
 
       if (minText !== undefined && minText !== null) {
         !minLength && errors.push(`Минимальное количество символов: ${minText}`);
@@ -144,19 +136,24 @@ export default {
       return errors;
     },
 
-    printError(error) {
-      const code = error.response.status;
-      if (code === ResponseCode.HTTP_UNPROCESSABLE_ENTITY) {
-        this.errorMessage = ErrorMessages.DUPLICATE_ENTITY_KEY;
-        return;
-      }
-      console.dir(error)
+    getUserData() {
+      return {
+        login: this.login,
+        password: this.password,
+        employeeId: this.employee.id
+      };
+    },
+
+    clear() {
+      this.login = '';
+      this.password = '';
+      this.employee = null;
     },
   },
 
   async beforeMount() {
     await this.$store.dispatch('employee/fetchEmployees')
-        .catch(err => console.dir(err));
+        .catch(err => console.dir(err))
   },
 }
 </script>

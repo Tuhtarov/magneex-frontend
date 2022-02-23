@@ -24,7 +24,7 @@
         <template v-slot:item.employee.people.family="{item}">
           <span v-if="item.employee.people">
             <router-link :to="{name: 'employees-show', params: {id: item.employee.id}}" class="text-decoration-none">
-              {{ item.employee.people.family }}
+              {{ getFullName(item.employee.people) }}
             </router-link>
           </span>
           <span v-else :class="getColor(null)">-</span>
@@ -75,6 +75,7 @@ export default {
       "error--text": val === null,
       'success--text': val === 'сегодня'
     }),
+    getFullName: ({family, name}) => `${family} ${name}`,
   },
 };
 </script>

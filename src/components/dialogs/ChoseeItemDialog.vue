@@ -16,7 +16,7 @@
       <v-divider/>
 
       <v-card-text style="height: 300px;">
-        <v-radio-group :value="value" column @change="onSelect">
+        <v-radio-group column :value="value" @change="onChange">
           <v-radio
               v-for="item in items"
               :key="`${item.name}${item.id}`"
@@ -38,24 +38,21 @@
 <script>
 export default {
   name: "ChooseItemDialog",
+
   props: {
-    value: {type: Number},
-    items: {type: Array},
+    value: Number,
+    items: Array,
   },
+
   data: () => ({
     showDialog: false
   }),
+
   methods: {
-    onSelect(id) {
+    onChange(id) {
       this.showDialog = false
-      this.$emit('select', {
-        id: id,
-        name: this.getNameById(id)
-      })
+      this.$emit('change', id)
     },
-    getNameById(id) {
-      return this.items.reduce((p, c) => +c.id === +id ? p + c.name : p, '')
-    }
   }
 }
 </script>

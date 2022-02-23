@@ -3,20 +3,21 @@ import employeeManager from "@/api/Entity/EmployeeManager.js";
 export default {
     state: {
         employees: [],
-        recentEmployee: null
+        recentEmployees: []
     },
     getters: {
         getEmployees: state => state.employees,
-        getRecentEmployee: state => state.recentEmployee,
+        getRecentEmployees: state => state.recentEmployees,
     },
     mutations: {
         setEmployees: (state, employees) => state.employees = employees,
         pushEmployee: (state, employee) => {
             state.employees.push(employee)
-            state.recentEmployee = employee;
+            state.recentEmployees.push(employee);
         },
         removeEmployeeById: (state, id) => {
             const employees = []
+            const recentEmployees = []
 
             state.employees.forEach((item) => {
                 if (+item.id !== +id) {
@@ -24,7 +25,14 @@ export default {
                 }
             })
 
+            state.recentEmployees.forEach((item) => {
+                if (+item.id !== +id) {
+                    recentEmployees.push(item);
+                }
+            })
+
             state.employees = employees;
+            state.recentEmployees = recentEmployees;
         }
     },
     actions: {

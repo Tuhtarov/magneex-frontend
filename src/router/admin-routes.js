@@ -30,6 +30,20 @@ export default [
         }
     },
 
+    // журнал посещений
+    {
+        path: '/todo',
+        name: 'todo',
+        component: () => import('@/views/admin/visits'),
+        meta: {
+            ...setLayout('admin'),
+            ...setNavLink({
+                title: 'Отчёты',
+                icon: 'mdi-history'
+            })
+        }
+    },
+
     // пользователи
     {
         path: '/users',
@@ -62,6 +76,15 @@ export default [
         name: 'employees-show',
         props: true,
         component: () => import('@/views/admin/employees/show.vue'),
+        meta: {
+            ...setLayout('admin')
+        }
+    },
+    {
+        path: '/employees/edit/:id',
+        name: 'employees-edit',
+        props: true,
+        component: () => import('@/views/admin/employees/edit.vue'),
         meta: {
             ...setLayout('admin')
         }
