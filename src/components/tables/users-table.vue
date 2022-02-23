@@ -4,8 +4,8 @@
       :no-data-text="'Пользователи не были загружены'"
       :items="users"
       :search="search">
-    <template v-slot:item.employee.people.name="{item}">
-      <router-link  :to="{name: 'employees-show', params: {id: item.employee.id}}">
+    <template v-slot:item.employee.people.family="{item}">
+      <router-link :to="{name: 'employees-show', params: {id: item.employee.id}}" class="text-decoration-none">
         {{ item.employee.people.family }}
       </router-link>
     </template>
@@ -23,10 +23,10 @@ export default {
   data: () => ({
     search: '',
     headers: [
-      {text: '#', value: 'id', width: '50px'},
-      {text: 'Логин', value: 'login', width: '250px'},
-      {text: 'Роль', value: 'employee.role.name', width: '250px'},
-      {text: 'Сотрудник', value: 'employee.people.name'},
+      {text: '#', value: 'id',},
+      {text: 'Сотрудник', value: 'employee.people.family'},
+      {text: 'Логин', value: 'login'},
+      {text: 'Роль', value: 'employee.role.name'},
     ]
   })
 }

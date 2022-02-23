@@ -1,33 +1,5 @@
 import visitManager from "@/api/Entity/VisitManager"
 
-/**
- * @param {array} visits
- * @returns {array}
- */
-const prepareVisits = visits => {
-    const now = new Date()
-
-    // преобразовать дату в формате: 14.02.2022
-    const toDate = (dt) => {
-        if (dt === null) return null;
-        const date = new Date(dt).toLocaleDateString("ru");
-        const isCurrentDay = date === now.toLocaleDateString("ru");
-
-        return isCurrentDay ? "сегодня" : date;
-    }
-
-    // преобразовать время в формате: 12:40:21
-    const toTime = dt => dt ? new Date(dt).toLocaleTimeString("ru") : null;
-
-    return visits.map(v => {
-        v.workDate = toDate(v.beginWorkTime);
-        v.beginWorkTime = toTime(v.beginWorkTime);
-        v.endWorkTime = toTime(v.endWorkTime);
-
-        return v;
-    });
-}
-
 export default {
     state: {
         todayVisitCurrentEmployee: null,
@@ -56,7 +28,7 @@ export default {
         // все посещения текущего сотрудника
         async fetchAllByCurrentEmployee({commit, getters}) {
             return await visitManager.getAllByCurrentEmployee().then(visits => {
-                commit('setAllCurrentEmployee', prepareVisits(visits))
+                commit('setAllCurrentEmployee', visits)
                 return getters.getAllCurrentEmployee;
             })
         },
@@ -69,15 +41,15 @@ export default {
         // вся история конкретного сотрудника
         async fetchAllByEmployeeId(store, id) {
             return await visitManager.getAllByEmployeeId(id)
-                .then(visits => prepareVisits(visits))
         },
 
         // вся история
         async fetchAllHistory({commit, getters}) {
-            return await visitManager.getAllHistory().then(visits => {
-                commit('setAllVisits', prepareVisits(visits))
-                return getters.getAllVisits;
-            })
+            return await visitManager.getAllHistory()
+                .then(visits => {
+                    commit('setAllVisits', visits)
+                    return getters.getAllVisits;
+                })
         },
 
         setTodayVisit({commit}, visit) {

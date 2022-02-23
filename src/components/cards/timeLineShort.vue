@@ -26,15 +26,10 @@ export default {
   },
   computed: {
     beginTime() {
-      return this.visit.beginWorkTime ? this.getTime(this.visit.beginWorkTime) : null;
+      return this.visit.beginWorkTime;
     },
     endTime() {
-      return this.visit.endWorkTime ? this.getTime(this.visit.endWorkTime) : null;
-    },
-  },
-  methods: {
-    getTime(dateTimeString) {
-      return (new Date(dateTimeString)).toLocaleTimeString('ru')
+      return this.visit.endWorkTime;
     },
   }
 };

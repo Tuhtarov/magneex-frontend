@@ -9,8 +9,8 @@
     <v-card-text>
       <v-progress-circular v-if="visitLoading" indeterminate />
       <template v-else>
-        <text-error v-if="hasError" :message="'Есть ошибка при загрузке.'" />
-        <p v-if="!hasError && !todayVisit">
+        <text-error v-if="hasServerError" :message="'Есть ошибка при получении данных.'" />
+        <p v-if="!hasServerError && !todayVisit">
           > Вероятно, вы сегодня ещё не посещали предприятие.
         </p>
       </template>
@@ -33,7 +33,7 @@ export default {
   components: { timeLineShort, textError },
   data: () => ({
     visitLoading: true,
-    hasError: null,
+    hasServerError: null,
   }),
   computed: {
     ...mapGetters({
@@ -48,7 +48,7 @@ export default {
   beforeMount() {
     this.$store
       .dispatch("visit/fetchTodayByCurrentEmployee")
-      .catch(() => (this.hasError = true))
+      .catch(() => (this.hasServerError = true))
       .finally(() => (this.visitLoading = false));
   },
 };

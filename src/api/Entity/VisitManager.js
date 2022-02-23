@@ -23,7 +23,7 @@ class VisitManager {
 
     async getAllHistory() {
         return await axiosInstance.get(`/visits/`)
-            .then(res => res.data.visit);
+            .then(res => res.data.visits);
     }
 }
 

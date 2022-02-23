@@ -14,14 +14,11 @@
 export default {
   name: "visitAfterScan",
   props: {
-    visitTime: {
-      type: String,
-      default: null
-    }
+    visitTime: String
   },
   computed: {
     time() {
-      return (new Date(this.visitTime)).toLocaleTimeString();
+      return (new Date(this.visitTime)).toLocaleTimeString('ru');
     }
   }
 }

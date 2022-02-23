@@ -252,14 +252,6 @@ export default {
   mounted() {
     this.$store.dispatch('role/fetchRoles')
     this.$store.dispatch('jobPosition/fetchJobPositions')
-
-    this.name = 'aleksandr';
-    this.family = 'tukhtarov';
-    this.patronymic = 'mockov';
-    this.email = 'fsdsf@mail.ru';
-    this.phone = '89233987519';
-    this.jobPositionId = 3;
-    this.roleId = 3;
   },
 };
 </script>

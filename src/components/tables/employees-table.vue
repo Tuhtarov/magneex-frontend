@@ -56,8 +56,8 @@ export default {
     search: '',
     headers: [
       {text: '#', value: 'id', width: '50px'},
-      {text: 'Имя', align: 'start', value: 'people.name', width: '250px'},
-      {text: 'Фамилия', value: 'people.family', width: '250px'},
+      {text: 'Имя', align: 'start', value: 'people.name'},
+      {text: 'Фамилия', value: 'people.family'},
       // {text: 'Отчество', value: 'people.patronymic'},
       // {text: 'Дата рождения', value: 'people.birthday'},
       {text: 'Почта', value: 'people.email'},

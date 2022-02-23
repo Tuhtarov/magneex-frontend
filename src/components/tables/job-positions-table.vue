@@ -46,8 +46,9 @@ export default {
     search: '',
     headers: [
       {text: '#', align: 'start', width: '40', value: 'id'},
-      {text: 'Наименование', align: 'start', width: '500', value: 'name'},
-      {text: 'Начало', align: 'start', width: '100', value: 'beginWorkTime'},
+      {text: 'Наименование', align: 'start', value: 'name'},
+      {text: 'Зарплата', align: 'start', value: 'salary'},
+      {text: 'Начало', align: 'start', value: 'beginWorkTime'},
       {text: 'Конец', align: 'start', value: 'endWorkTime'},
     ],
   }),

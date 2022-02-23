@@ -11,7 +11,21 @@ export default [
             ...setLayout('qr', 'admin'),
             ...setNavLink({
                 title: "QR код",
-                icon: "mdi-close"
+                icon: "mdi-qrcode-scan"
+            })
+        }
+    },
+
+    // журнал посещений
+    {
+        path: '/visits',
+        name: 'visits',
+        component: () => import('@/views/admin/visits'),
+        meta: {
+            ...setLayout('admin'),
+            ...setNavLink({
+                title: 'Журнал посещений',
+                icon: 'mdi-book'
             })
         }
     },
@@ -52,6 +66,7 @@ export default [
             ...setLayout('admin')
         }
     },
+
     // должности
     {
         path: '/job-positions',
