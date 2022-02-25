@@ -21,9 +21,9 @@ class EmployeeManager {
     /**
      * @return {Promise<unknown>}
      */
-    async edit(data) {
-        return await axiosInstance.patch('/employees/edit', data)
-            .then(res => res.data)
+    async edit(id, data) {
+        return await axiosInstance.post(`/employees/edit/${id}`, {employee: data})
+            .then(res => res.data.employee)
     }
 
     /**

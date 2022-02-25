@@ -192,13 +192,28 @@ export default {
   },
 
   methods: {
-    ...mapActions({createEmployee: 'employee/createEmployee'}),
+    ...mapActions({
+      createEmployee: 'employee/createEmployee',
+      editEmployee: 'employee/editEmployee'
+    }),
 
     async submit() {
       this.$v.$touch();
       if (this.$v.$error) return;
 
-      await this.createEmployee(this.getEmployee())
+      if (this.employee) {
+        const editData = {
+          id: this.employee.id,
+          data: {
+            people_data: this.getPeopleData(),
+            ...this.getRelatedData()
+          }
+        };
+
+        await this.editEmployee(editData);
+      } else {
+        await this.createEmployee(this.getEmployee());
+      }
     },
 
     validate(input) {
@@ -231,7 +246,7 @@ export default {
       return errors;
     },
 
-    getEmployee() {
+    getPeopleData() {
       return {
         name: this.name,
         family: this.family,
@@ -239,9 +254,21 @@ export default {
         birthday: this.birthday,
         email: this.email,
         phone: this.phone,
+      }
+    },
+
+    getRelatedData() {
+      return {
         job_position_id: this.jobPositionId,
         role_id: this.roleId,
       }
+    },
+
+    getEmployee() {
+      return {
+        ...this.getPeopleData(),
+        ...this.getRelatedData()
+      };
     },
 
     clear() {

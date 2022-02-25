@@ -9,7 +9,7 @@
             style="max-width: 500px;"
             single-line
             hide-details
-        ></v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
@@ -87,7 +87,7 @@ export default {
 
       this.acceptCallback = async () => {
         await this.$store.dispatch('employee/deleteEmployeeById', id)
-            .catch(() => console.log('ошибка при удалении сотрудника'));
+            .catch((e) => console.dir(e));
       }
     }
   },
