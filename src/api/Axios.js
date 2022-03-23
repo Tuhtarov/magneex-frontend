@@ -5,7 +5,7 @@ import messages from "@/api/ResponseMessages.js"
 
 let tokenValue = token.getSaved();
 
-export const BASE_API_URL = 'http://127.0.0.1:8000/api';
+export const BASE_API_URL = 'http://localhost:8000/api';
 
 export const axiosConfig = {
     baseURL: BASE_API_URL,

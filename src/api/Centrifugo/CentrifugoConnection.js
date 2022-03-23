@@ -8,12 +8,11 @@ class CentrifugoConnection {
      */
     async fetchConnection() {
         return await axiosInstance.get(this.SERVER_ROUTE)
-            .then(({data}) => {
-                return Promise.resolve({
+            .then(({data}) => ({
                     config: data.config,
                     qr: data.qr
                 })
-            });
+            );
     }
 
     /**
