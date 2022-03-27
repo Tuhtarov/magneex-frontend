@@ -1,14 +1,37 @@
 <template>
   <v-col>
-    <v-card>
+    <v-card :loading="!employee">
       <v-card-title>Сотрудник</v-card-title>
       <v-card-subtitle>Информация о сотруднике</v-card-subtitle>
 
-      <!--Данные сотрудника-->
-      <v-card-text style="max-width: 882px;">
-        <people-info-card v-if="employee" :employee="employee"/>
-        <simple-text-error v-else-if="empErr" :red-color="true" :message="empErr"/>
-      </v-card-text>
+      <v-container fluid>
+        <v-row>
+          <!--Данные сотрудника-->
+          <v-col class="col-12 col-md-8">
+            <people-info-card v-if="employee" :employee="employee"/>
+            <simple-text-error
+                v-else-if="empErr"
+                :red-color="true"
+                :message="empErr"
+            />
+          </v-col>
+
+          <!--Панель с отчётами-->
+          <v-col class="col-md-4">
+            <v-card elevation="0" v-if="employee">
+              <v-card-title> Отчёты</v-card-title>
+
+              <v-card-text>
+                <v-row no-gutters>
+                  <visit-history :employee="employee"/>
+                  <overwork-employee :employee="employee"/>
+                  <tardy-employee :employee="employee"/>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
 
       <v-divider/>
 
@@ -17,14 +40,14 @@
         <v-card-title>История</v-card-title>
         <v-card-subtitle>Недавняя история посещений</v-card-subtitle>
 
-        <v-card-text style="max-width: 882px;">
+        <v-card-text style="max-width: 882px">
           <time-line-short v-if="todayVisit" :visit="todayVisit"/>
-          <simple-text-error v-else-if="visErr" :red-color="false" :message="visErr"/>
+          <simple-text-error
+              v-else-if="visErr"
+              :red-color="false"
+              :message="visErr"
+          />
         </v-card-text>
-
-        <v-card-actions>
-          <v-btn text link color="primary">Вся история</v-btn>
-        </v-card-actions>
       </template>
     </v-card>
   </v-col>
@@ -34,40 +57,55 @@
 import {mapActions} from "vuex";
 import TimeLineShort from "@/components/cards/timeLineShort";
 import PeopleInfoCard from "@/components/cards/peopleInfoCard";
+
+// ошибки
 import visitError from "@/api/Error/VisitError";
 import employeeError from "@/api/Error/EmployeeError";
 import SimpleTextError from "@/components/outputs/simple-text-error";
 
+// отчёты
+import VisitHistory from "@/components/dialogs/reports/visit-history";
+import OverworkEmployee from "@/components/dialogs/reports/overwork/overwork-employee";
+import TardyEmployee from "@/components/dialogs/reports/tardy/tardy-employee";
+
 export default {
   name: "showEmployeePage",
-  components: {SimpleTextError, PeopleInfoCard, TimeLineShort},
+  components: {
+    SimpleTextError,
+    PeopleInfoCard,
+    TimeLineShort,
+    VisitHistory,
+    OverworkEmployee,
+    TardyEmployee,
+  },
   data: () => ({
     employee: null,
     todayVisit: null,
     empErr: null,
-    visErr: null
+    visErr: null,
   }),
   methods: {
     ...mapActions({
-      getEmployeeById: 'employee/getEmployeeById',
-      getTodayVisitByEmployeeId: 'visit/fetchTodayByEmployeeId'
-    })
+      getEmployeeById: "employee/getEmployeeById",
+      getTodayVisitByEmployeeId: "visit/fetchTodayByEmployeeId",
+    }),
   },
   beforeMount() {
     const id = this.$route.params.id;
 
     if (id !== undefined) {
-      this.getEmployeeById(id).then(emp => this.employee = emp)
-          .catch((e) => this.empErr = employeeError.getMessage(e?.response?.status));
+      this.getEmployeeById(id)
+          .then((emp) => (this.employee = emp))
+          .catch(
+              (e) => (this.empErr = employeeError.getMessage(e?.response?.status))
+          );
 
       this.getTodayVisitByEmployeeId(id)
-          .then(visit => this.todayVisit = visit)
-          .catch(e => this.visErr = visitError.getMessage(e?.response?.status));
+          .then((visit) => (this.todayVisit = visit))
+          .catch(
+              (e) => (this.visErr = visitError.getMessage(e?.response?.status))
+          );
     }
-  }
-}
+  },
+};
 </script>
-
-<style scoped>
-
-</style>

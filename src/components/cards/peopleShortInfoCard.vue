@@ -1,8 +1,8 @@
 <template>
   <v-card class="span-opacity" outlined>
     <v-card-text>
-      <p><span>Имя:</span> {{ employee.people.name }}</p>
       <p><span>Фамилия:</span> {{ employee.people.family }}</p>
+      <p><span>Имя:</span> {{ employee.people.name }}</p>
       <p><span>Отчество:</span> {{ employee.people.patronymic }}</p>
       <p><span>Дата рождения:</span> {{ birthDay }}</p>
       <p><span>Телефон:</span> {{ employee.people.phone }}</p>

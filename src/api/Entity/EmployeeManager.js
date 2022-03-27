@@ -1,4 +1,13 @@
 import axiosInstance from '@/api/Axios.js';
+import {getHoursFromDatePeriod} from "@/features/HoursManager";
+
+
+export function getJobHours({jobPosition}) {
+    const begin = new Date(`1970-01-01 ${jobPosition.beginWorkTime}`)
+    const end = new Date(`1970-01-01 ${jobPosition.endWorkTime}`)
+
+    return getHoursFromDatePeriod(begin, end)
+}
 
 class EmployeeManager {
     /**
@@ -40,6 +49,11 @@ class EmployeeManager {
     async removeById(id) {
         return await axiosInstance.delete(`/employees/delete/${id}`)
             .then(res => res.data)
+    }
+
+    async fetchAllInOnline() {
+        return await axiosInstance.get(`/employees/online`)
+            .then(res => res.data.employees)
     }
 }
 

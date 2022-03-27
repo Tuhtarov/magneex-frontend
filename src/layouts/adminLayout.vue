@@ -5,7 +5,7 @@
     <v-main>
       <v-container fluid style="max-width: 1920px;">
         <v-row>
-          <router-view></router-view>
+          <router-view />
         </v-row>
       </v-container>
 

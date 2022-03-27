@@ -52,6 +52,11 @@ export default {
                 })
         },
 
+        // опоздания, для отчёта
+        async fetchTardiesByEmployeeId(store, id) {
+            return await visitManager.findTardiesByEmployeeId(id)
+        },
+
         setTodayVisit({commit}, visit) {
             commit('setTodayCurrentEmployee', visit);
         }

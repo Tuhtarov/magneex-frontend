@@ -44,6 +44,10 @@ export default {
             });
         },
 
+        async fetchEmployeesInOnline() {
+            return await employeeManager.fetchAllInOnline()
+        },
+
         addEmployee({commit}, employee) {
             commit('pushEmployee', employee);
         },

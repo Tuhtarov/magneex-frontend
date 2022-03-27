@@ -8,28 +8,7 @@
         :route-name="route.name"
         :nav-title="route.title"
         :nav-icon="route.icon"
-      >
-      </navigation-item>
-
-      <!--Раскрывающиеся ссылки-->
-      <!--      <v-list-group-->
-      <!--          v-else-->
-      <!--          :key="route.title"-->
-      <!--          :prepend-icon="route.icon">-->
-
-      <!--        <template v-slot:activator>-->
-      <!--          <v-list-item-title>{{ route.title }}</v-list-item-title>-->
-      <!--        </template>-->
-
-      <!--        <v-divider/>-->
-
-      <!--        <navigation-item-->
-      <!--            v-for="link in item.links"-->
-      <!--            :key="link.title"-->
-      <!--            :navItem="link">-->
-      <!--        </navigation-item>-->
-      <!--        <v-divider/>-->
-      <!--      </v-list-group>-->
+      />
     </template>
   </v-list>
 </template>
@@ -76,6 +55,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

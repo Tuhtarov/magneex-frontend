@@ -1,15 +1,16 @@
 <template>
   <v-app>
-    <app-bar :includeNavigation="true"/>
+    <app-bar :includeNavigation="true" />
 
     <v-main>
-      <v-container fluid style="max-width: 1920px;">
+      <v-container 
+        fluid style="max-width: 1920px">
         <v-row>
           <router-view />
         </v-row>
       </v-container>
 
-      <app-footer/>
+      <app-footer />
     </v-main>
   </v-app>
 </template>
@@ -20,6 +21,6 @@ import appFooter from "@/components/structure/app-footer";
 
 export default {
   name: "commonLayout",
-  components: {appBar, appFooter},
+  components: { appBar, appFooter },
 };
 </script>

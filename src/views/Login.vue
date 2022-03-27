@@ -17,6 +17,7 @@
     </v-card-text>
   </v-card>
 </template>
+
 <script>
 import loginForm from "@/components/forms/loginForm";
 
@@ -31,7 +32,3 @@ export default {
   })
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -185,7 +185,6 @@ export default {
     phoneErrors() {
       return this.validate(this.$v.phone)
     },
-
     actionText() {
       return this.employee ? 'сохранить' : 'добавить';
     },

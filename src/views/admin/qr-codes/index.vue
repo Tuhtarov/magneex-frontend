@@ -1,25 +1,18 @@
 <template>
   <v-card elevation="7">
-    <v-card-title class="justify-center">Отсканируй это 🙃</v-card-title>
+    <v-card-title class="justify-center">
+      Отсканируй это 🙃
+    </v-card-title>
 
     <v-card-text>
       <div v-if="qrUrl" class="qr--container">
-        <vue-qr :text="qrUrl" :size="qrSize"/>
+        <vue-qr :text="qrUrl" :size="qrSize" />
+        {{ qrUrl }}
       </div>
-
-      <code style="color: #ff0038">
-        <pre>
-          <span class="white--text">
-            // Ссылка для регистрации посещения:
-          </span>
-
-      {{ qrUrl }}
-        </pre>
-      </code>
     </v-card-text>
 
     <v-card-text v-if="errMsg">
-      <text-error :message="errMsg"/>
+      <text-error :message="errMsg" />
     </v-card-text>
   </v-card>
 </template>
@@ -32,7 +25,7 @@ import qrSubscriber from "@/api/QR/QrSubscriber";
 
 export default {
   name: "mercury-subscriber",
-  components: {TextError, VueQr},
+  components: { TextError, VueQr },
   data: () => ({
     loading: true,
     qrSize: 300,
@@ -45,8 +38,8 @@ export default {
     },
     connect() {
       qrSubscriber.startSession(
-          (qr) => this.qrUrl = qrUrlManager.getScanUrl(qr.token),
-          (err) => this.errMsg = err
+        (qr) => (this.qrUrl = qrUrlManager.getScanUrl(qr.token)),
+        (err) => (this.errMsg = err)
       );
     },
   },

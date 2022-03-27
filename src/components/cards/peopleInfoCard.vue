@@ -22,7 +22,6 @@
     </v-card-text>
   </v-card>
 </template>
-
 <script>
 export default {
   name: "peopleInfoCard",

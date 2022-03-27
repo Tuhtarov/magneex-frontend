@@ -30,20 +30,6 @@ export default [
         }
     },
 
-    // журнал посещений
-    {
-        path: '/todo',
-        name: 'todo',
-        component: () => import('@/views/admin/visits'),
-        meta: {
-            ...setLayout('admin'),
-            ...setNavLink({
-                title: 'Отчёты',
-                icon: 'mdi-history'
-            })
-        }
-    },
-
     // пользователи
     {
         path: '/users',

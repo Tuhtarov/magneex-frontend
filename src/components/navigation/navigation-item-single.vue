@@ -12,15 +12,9 @@
 export default {
   name: 'NavigationItemSingle',
   props: {
-    routeName: {
-      type: String
-    },
-    navTitle: {
-      type: String
-    },
-    navIcon: {
-      type: String
-    }
+    routeName: String,
+    navTitle: String,
+    navIcon: String
   }
 };
 </script>

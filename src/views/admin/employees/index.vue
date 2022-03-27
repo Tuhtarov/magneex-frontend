@@ -6,7 +6,7 @@
 
       <!--Недавно созданные сотрудники-->
       <v-col class="col-12 col-md-5 col-lg-4">
-        <employees-created-list/>
+        <employees-list :employees="recentEmployees"/>
       </v-col>
     </v-row>
 
@@ -30,19 +30,24 @@
 <script>
 import employeeForm from "@/components/forms/employeeForm";
 
-import EmployeesCreatedList from '@/components/listViews/employeesCreatedList';
+import EmployeesList from '@/components/listViews/employeesList';
 import EmployeesTable from "@/components/tables/employees-table";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "employees",
-  components: {employeeForm, EmployeesCreatedList, EmployeesTable},
+  components: {employeeForm, EmployeesList, EmployeesTable},
   data: () => ({
     loading: true,
-    hasError: false
+    hasError: false,
   }),
-  computed: mapGetters({employees: 'employee/getEmployees'}),
+  computed: {
+    ...mapGetters({
+      employees: 'employee/getEmployees',
+      recentEmployees: 'employee/getRecentEmployees'
+    }),
+  },
   methods: mapActions({fetchEmployees: 'employee/fetchEmployees'}),
 
   async beforeMount() {
