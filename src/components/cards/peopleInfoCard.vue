@@ -1,15 +1,20 @@
 <template>
-  <v-card elevation="4" outlined>
+  <v-card elevation="4" outlined :disabled="loading">
     <v-card-title>{{ fullName }}</v-card-title>
+
     <v-card-text class="d-flex flex-wrap">
-      <div class="col-12 col-md-7 pt-0 ps-0">
+      <div v-if="employee" class="col-12 col-md-7 pt-0 ps-0">
         <p>Телефон: {{ employee.people.phone }}</p>
         <p>Email: {{ employee.people.email }}</p>
         <p>Должность: {{ employee.jobPosition ? employee.jobPosition.name : '-' }}</p>
         <p>Роль: {{ employee.role ? employee.role.name : '-' }}</p>
         <p>Дата рождения: {{ birthDay }}</p>
       </div>
-      <v-spacer></v-spacer>
+
+      <v-progress-circular v-if="loading" indeterminate/>
+
+      <v-spacer />
+
       <div class="d-none d-md-block pb-2">
         <v-img
             width="200"
@@ -26,7 +31,8 @@
 export default {
   name: "peopleInfoCard",
   props: {
-    employee: {type: Object, default: null}
+    employee: {type: Object, default: null},
+    loading: Boolean,
   },
   computed: {
     fullName() {

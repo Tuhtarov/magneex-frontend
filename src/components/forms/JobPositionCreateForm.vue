@@ -30,18 +30,18 @@
 
           <v-col class="col-12 col-md-6 ps-0">
             <time-input
-                v-model="beginWorkTime"
+                v-model="beginWork"
                 label="Начало набочего времени"
-                @input="$v.beginWorkTime.$touch()"
-                @blur="$v.beginWorkTime.$touch()"
+                @input="$v.beginWork.$touch()"
+                @blur="$v.beginWork.$touch()"
                 :error-messages="beginTimeErr"
             />
 
             <time-input
-                v-model="endWorkTime"
+                v-model="endWork"
                 label="Конец набочего времени"
-                @input="$v.endWorkTime.$touch()"
-                @blur="$v.endWorkTime.$touch()"
+                @input="$v.endWork.$touch()"
+                @blur="$v.endWork.$touch()"
                 :error-messages="endTimeErr"
             />
 
@@ -77,8 +77,8 @@ import {minLength, required, maxLength, minValue} from "vuelidate/lib/validators
 
 const validations = {
   name: {required, minLength: minLength(2), maxLength: maxLength(200)},
-  beginWorkTime: {required},
-  endWorkTime: {required},
+  beginWork: {required},
+  endWork: {required},
   salary: {required, minValue: minValue(0)}
 }
 
@@ -92,8 +92,8 @@ export default {
 
   data: () => ({
     name: '',
-    beginWorkTime: '',
-    endWorkTime: '',
+    beginWork: '',
+    endWork: '',
     salary: 0,
     hasServerError: false
   }),
@@ -103,10 +103,10 @@ export default {
       return this.validate(this.$v.name, 'name')
     },
     beginTimeErr() {
-      return this.validate(this.$v.beginWorkTime, 'begin')
+      return this.validate(this.$v.beginWork, 'begin')
     },
     endTimeErr() {
-      return this.validate(this.$v.endWorkTime, 'end')
+      return this.validate(this.$v.endWork, 'end')
     },
     salaryErr() {
       return this.validate(this.$v.salary, 'salary')
@@ -119,6 +119,7 @@ export default {
     async submit() {
       this.$v.$touch();
       if (this.$v.$error) return;
+      console.log(this.getJobPosition());
 
       await this.createJobPosition(this.getJobPosition())
           .then(() => {
@@ -152,8 +153,8 @@ export default {
     getJobPosition() {
       return {
         name: this.name,
-        beginWorkTime: this.beginWorkTime,
-        endWorkTime: this.endWorkTime,
+        beginWork: this.beginWork,
+        endWork: this.endWork,
         salary: this.salary
       };
     },
@@ -161,8 +162,8 @@ export default {
     clear() {
       this.$v.$reset();
       this.name = '';
-      this.beginWorkTime = '';
-      this.endWorkTime = '';
+      this.beginWork = '';
+      this.endWork = '';
       this.salary = '';
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <v-card height="100%">
     <v-card-title v-if="title.length > 0">{{ title }}</v-card-title>
-    <v-card-subtitle v-if="!employees.length > 0">Список пуст.</v-card-subtitle>
+    <v-card-subtitle v-if="!employees.length > 0">Пусто</v-card-subtitle>
 
     <v-list v-else elevation="5">
       <v-list-group

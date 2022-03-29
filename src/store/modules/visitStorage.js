@@ -4,17 +4,24 @@ export default {
     state: {
         todayVisitCurrentEmployee: null,
         visitsCurrentEmployee: [],
-        allVisits: []
+        allVisits: [],
+        visitsLoading: null,
     },
     getters: {
         getTodayCurrentEmployee: state => state.todayVisitCurrentEmployee,
         getAllCurrentEmployee: state => state.visitsCurrentEmployee,
         getAllVisits: state => state.allVisits,
+
+        visitsIsLoading: state => state.visitsLoading,
     },
     mutations: {
         setTodayCurrentEmployee: (state, visit) => state.todayVisitCurrentEmployee = visit,
         setAllCurrentEmployee: (state, visits) => state.visitsCurrentEmployee = visits,
-        setAllVisits: (state, visits) => state.allVisits = visits,
+        setAllVisits: (state, visits) => {
+            state.allVisits = visits
+            state.visitsLoading = false
+        },
+        setVisitsLoading: (state, val) => state.visitsLoading = val,
     },
     actions: {
         // сегодняшнее посещение текущего сотрудника
@@ -45,16 +52,13 @@ export default {
 
         // вся история
         async fetchAllHistory({commit, getters}) {
+            commit('setVisitsLoading', true)
+
             return await visitManager.getAllHistory()
                 .then(visits => {
                     commit('setAllVisits', visits)
                     return getters.getAllVisits;
                 })
-        },
-
-        // опоздания, для отчёта
-        async fetchTardiesByEmployeeId(store, id) {
-            return await visitManager.findTardiesByEmployeeId(id)
         },
 
         setTodayVisit({commit}, visit) {

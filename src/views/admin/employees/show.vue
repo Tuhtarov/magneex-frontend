@@ -1,6 +1,6 @@
 <template>
   <v-col>
-    <v-card :loading="!employee">
+    <v-card>
       <v-card-title>Сотрудник</v-card-title>
       <v-card-subtitle>Информация о сотруднике</v-card-subtitle>
 
@@ -8,25 +8,28 @@
         <v-row>
           <!--Данные сотрудника-->
           <v-col class="col-12 col-md-8">
-            <people-info-card v-if="employee" :employee="employee"/>
+            <people-info-card v-show="!empErr" :loading="loading" :employee="employee" />
+
             <simple-text-error
-                v-else-if="empErr"
+                v-if="empErr"
                 :red-color="true"
                 :message="empErr"
             />
           </v-col>
 
           <!--Панель с отчётами-->
-          <v-col class="col-md-4">
-            <v-card elevation="0" v-if="employee">
-              <v-card-title> Отчёты</v-card-title>
+          <v-col class="col-md-4" v-if="!empErr">
+            <v-card elevation="0" :disabled="loading">
+              <v-card-title>Отчёты</v-card-title>
 
               <v-card-text>
-                <v-row no-gutters>
+                <v-row no-gutters v-if="employee">
                   <visit-history :employee="employee"/>
                   <overwork-employee :employee="employee"/>
                   <tardy-employee :employee="employee"/>
                 </v-row>
+
+                <v-progress-circular indeterminate v-if="loading"/>
               </v-card-text>
             </v-card>
           </v-col>
@@ -90,6 +93,13 @@ export default {
       getTodayVisitByEmployeeId: "visit/fetchTodayByEmployeeId",
     }),
   },
+
+  computed: {
+    loading() {
+      return !this.employee && !this.empErr;
+    },
+  },
+
   beforeMount() {
     const id = this.$route.params.id;
 

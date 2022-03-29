@@ -51,15 +51,16 @@ export default {
   name: "visits-table",
   props: {
     visits: Array,
-    includeEmployee: Boolean
+    includeEmployee: Boolean,
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     search: "",
   }),
   computed: {
-    loading() {
-      return this.visits.length <= 0;
-    },
     headers() {
       return [
         {text: "#", value: "id",},
